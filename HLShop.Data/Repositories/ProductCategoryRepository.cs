@@ -8,6 +8,7 @@ namespace HLShop.Data.Repositories
     public interface IProductCategoryRepository
     {
         IEnumerable<ProductCategory> getByAlias(string alias);
+
         // Method nay ko co san trong tap methods cua RepositoryBase, phai tu dinh nghia
     }
 
