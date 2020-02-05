@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 
 namespace HLShop.Data.Infrastructure
 {
-    public abstract class RepositoryBase<T> where T : class
+    public abstract class RepositoryBase<T> : IRepository<T> where T : class
     {
         // thuc thi cac class trong IRepository
 
