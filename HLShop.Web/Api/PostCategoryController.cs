@@ -1,9 +1,9 @@
-﻿using System.Net;
-using System.Net.Http;
-using System.Web.Mvc;
-using HLShop.Model.Models;
+﻿using HLShop.Model.Models;
 using HLShop.Service;
 using HLShop.Web.Infrastructure.Core;
+using System.Net;
+using System.Net.Http;
+using System.Web.Mvc;
 
 namespace HLShop.Web
 {
@@ -22,16 +22,10 @@ namespace HLShop.Web
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = null;
-                if (ModelState.IsValid)
-                {
-                    request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
-                }
-                else
-                {
-                    var listCategory = _postCategoryService.GetAll();
-                    response = request.CreateResponse(HttpStatusCode.OK, listCategory);
-                }
+                var listCategory = _postCategoryService.GetAll();
+
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.OK, listCategory);
+
                 return response;
             });
         }
