@@ -30,7 +30,7 @@ namespace HLShop.Web
             {
                 var listCategory = _postCategoryService.GetAll();
 
-                //map
+                //map sang PostCategoryVm
                 IMapper _mapper = AutoMapperConfiguration.Configure();
                 var listPostCategoryVm = _mapper.Map<List<PostCategoryViewModel>>(listCategory);
 

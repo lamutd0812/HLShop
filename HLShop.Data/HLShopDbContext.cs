@@ -1,9 +1,10 @@
 ﻿using HLShop.Model.Models;
 using System.Data.Entity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace HLShop.Data
 {
-    public class HLShopDbContext : DbContext
+    public class HLShopDbContext : IdentityDbContext<ApplicationUser>
     {
         public HLShopDbContext() : base("HLShopConnection")
         {
@@ -29,8 +30,15 @@ namespace HLShop.Data
         public DbSet<VisitorStatistic> VisitorStatistics { get; set; }
         public DbSet<Error> Errors { get; set; }
 
+        public static HLShopDbContext Create()
+        {   
+            return new HLShopDbContext();
+        }
+
         protected override void OnModelCreating(DbModelBuilder builder)
         {
+            builder.Entity<IdentityUserRole>().HasKey(i => new {i.UserId, i.RoleId});
+            builder.Entity<IdentityUserLogin>().HasKey(i => i.UserId);
         }
     }
 }
