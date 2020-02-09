@@ -1,20 +1,26 @@
-﻿
-@{
+﻿@{
     Layout = null;
 }
 
 <!DOCTYPE html>
 
-<html ng-app> 
+<html ng-app="myModul">
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Index</title>
     <script src="~/Assets/admin/libs/angular/angular.js"></script>
-
+    <script src="~/Scripts/spa/app.js"></script>
 </head>
 <body>
-<div>
-    10 + 20 = {{10+20}}
-</div>
+    10 + 20 = {{10+20}} <br />
+    <div ng-controller="schoolController">
+        -Message from school: {{message}}
+        <div ng-controller="studentController">
+            -Message from student: {{message}}
+        </div>
+        <div ng-controller="teacherController">
+            -Message from teacher: {{message}}
+        </div>
+    </div>
 </body>
 </html>
