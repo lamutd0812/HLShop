@@ -14,13 +14,10 @@
 <body>
     10 + 20 = {{10+20}} <br />
     <div ng-controller="schoolController">
-        -Message from school: {{message}}
-        <div ng-controller="studentController">
-            -Message from student: {{message}}
-        </div>
-        <div ng-controller="teacherController">
-            -Message from teacher: {{message}}
-        </div>
+        <input type="number" ng-model="num"/> Value of text box: {{num}}
+        <br />
+        <button ng-click="checkNumber()">Check number</button>
+        {{message}}
     </div>
 </body>
 </html>
