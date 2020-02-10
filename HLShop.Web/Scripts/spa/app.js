@@ -1,50 +1,36 @@
 ﻿/// <reference path="../../assets/admin/libs/angular/angular.js" />
 
-// khoi tao 1 module
+// create a module
 var myApp = angular.module('myModul', []);
 
 //register controller
 myApp.controller("schoolController", schoolController);
 
+//register a custom directive
+myApp.directive("hlShopDirective", hlShopDirective);
+
 //register service
-myApp.service('Validator', Validator);
+myApp.service('validatorService', validatorService);
 
 // inject
-schoolController.$inject = ['$scope', 'Validator'];
-
-// inject $scope object to controller
-//myController.$inject = ['$scope'];
+schoolController.$inject = ['$scope', 'validatorService'];
 
 //declare a controller
-function schoolController($scope, Validator) {
-    //$scope.message = "Hello i'm school!";
-
+function schoolController($scope, validatorService) {
     $scope.num = 1298;
 
-    Validator.checkNumber($scope.num);
-
     $scope.checkNumber = function () {
-        $scope.message = Validator.checkNumber2($scope.num);
+        $scope.message = validatorService.checkNumber($scope.num);
     } 
 }
 
-// declare a service
-function Validator($window) {
+// declare a service function
+function validatorService($window) {
     return {
-        checkNumber: checkNumber,
-        checkNumber2: checkNumber2
+        checkNumber: checkNumber
     }
 
     function checkNumber(input) {
-        if (input % 2 == 0) {
-            $window.alert(input + ' is even!');
-        }
-        else {
-            $window.alert(input + ' is odd!');
-        }
-    }
-
-    function checkNumber2(input) {
         if (input % 2 == 0) {
             return (input + ' is even!')
         }
@@ -53,3 +39,12 @@ function Validator($window) {
         }
     }
 }
+
+// declare a directive function
+function hlShopDirective() {
+    return {
+        restrict:"A",
+        templateUrl: "/Scripts/spa/hlShopDirective.html"
+    }
+}
+
