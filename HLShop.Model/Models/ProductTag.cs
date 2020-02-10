@@ -18,7 +18,7 @@ namespace HLShop.Model.Models
         [Key]
         [Column(TypeName = "varchar" , Order = 2)]
         [MaxLength(50)]
-        public int TagID { get; set; }
+        public string TagID { get; set; }
 
         [ForeignKey("ProductID")]
         public virtual Product Product { get; set; }
