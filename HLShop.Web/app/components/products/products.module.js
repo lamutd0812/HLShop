@@ -1,4 +1,5 @@
-﻿
+﻿/// <reference path="../../../assets/admin/libs/angular/angular.js" />
+
 (function () {
     angular.module('hlshop.products', ['hlshop.common']).config(config);
 

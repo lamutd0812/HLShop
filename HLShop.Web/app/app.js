@@ -2,7 +2,11 @@
 
 // cấu hình routing cho app chính hlshop
 (function () {
-    angular.module('hlshop', ['hlshop.products', 'hlshop.common']).config(config);
+    angular.module('hlshop',
+        ['hlshop.products',
+            'hlshop.product_categories',
+            'hlshop.common'])
+        .config(config);
 
     config.$inject = ['$stateProvider', '$urlRouterProvider'];
 
