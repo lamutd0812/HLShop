@@ -1,16 +1,17 @@
-﻿using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
-using AutoMapper;
-using HLShop.Model.Models;
+﻿using AutoMapper;
 using HLShop.Service;
 using HLShop.Web.Infrastructure.Core;
 using HLShop.Web.Mappings;
 using HLShop.Web.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
 
 namespace HLShop.Web.Api
-{ 
+{
     [RoutePrefix("api/productcategory")]
     public class ProductCategoryController : ApiControllerBase
     {
@@ -23,18 +24,29 @@ namespace HLShop.Web.Api
         }
 
         [Route("getall")]
-        public HttpResponseMessage GetAll(HttpRequestMessage request)
+        public HttpResponseMessage GetAll(HttpRequestMessage request, int page, int pageSize = 20)
         {
             return CreateHttpResponse(request, () =>
             {
-                var listProductCategories = _productCategoryService.GetAll();
+                int totalRow = 0;
+                var model = _productCategoryService.GetAll();
 
-                //map sang PostCategoryVm
+                totalRow = model.Count();
+                var query = model.OrderByDescending(x => x.CreatedDate).Skip(page * pageSize).Take(pageSize);
+
+                //map sang PostCategoryVm (responseData)
                 IMapper _mapper = AutoMapperConfiguration.Configure();
-                var listProductCategoryVm = _mapper.Map<List<ProductCategoryViewModel>>(listProductCategories);
+                var responseData = _mapper.Map<List<ProductCategoryViewModel>>(query);
 
-                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.OK, listProductCategoryVm);
+                var paginationSet = new PaginationSet<ProductCategoryViewModel>()
+                {
+                    Items = responseData,
+                    Page = page,
+                    TotalCount = totalRow,
+                    TotalPages = (int)Math.Ceiling((decimal)totalRow / pageSize)
+                };
 
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.OK, paginationSet);
                 return response;
             });
         }
