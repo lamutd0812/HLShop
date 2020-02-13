@@ -1,11 +1,7 @@
-﻿using System;
+﻿using HLShop.Model.Abstract;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HLShop.Model.Abstract;
 
 namespace HLShop.Model.Models
 {
@@ -34,7 +30,7 @@ namespace HLShop.Model.Models
         public string Image { get; set; }
 
         public bool? HomeFlag { get; set; }
-        
+
         public virtual IEnumerable<Product> Products { get; set; }
     }
 }
