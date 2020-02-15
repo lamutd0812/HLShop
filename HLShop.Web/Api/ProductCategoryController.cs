@@ -17,6 +17,7 @@ namespace HLShop.Web.Api
     [RoutePrefix("api/productcategory")]
     public class ProductCategoryController : ApiControllerBase
     {
+        #region Initialize
         private IProductCategoryService _productCategoryService;
 
         public ProductCategoryController(IErrorService errorService, IProductCategoryService productCategoryService)
@@ -24,6 +25,7 @@ namespace HLShop.Web.Api
         {
             this._productCategoryService = productCategoryService;
         }
+        #endregion
 
         [Route("getall")]
         [HttpGet]
@@ -94,6 +96,53 @@ namespace HLShop.Web.Api
 
                     IMapper _mapper = AutoMapperConfiguration.Configure();
                     var responseData = _mapper.Map<ProductCategoryViewModel>(newProductCategory);
+                    response = request.CreateResponse(HttpStatusCode.Created, responseData);
+                }
+
+                return response;
+            });
+        }
+
+        [Route("getbyid/{id:int}")]
+        [HttpGet]
+        public HttpResponseMessage GetById(HttpRequestMessage request, int id)
+        {
+            return CreateHttpResponse(request, () =>
+            {
+                var model = _productCategoryService.GetById(id);
+
+                //map sang PostCategoryVm (responseData)
+                IMapper _mapper = AutoMapperConfiguration.Configure();
+                var responseData = _mapper.Map<ProductCategoryViewModel>(model);
+
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.OK, responseData);
+                return response;
+            });
+        }
+
+        [Route("update")]
+        [HttpPut]
+        [AllowAnonymous]
+        public HttpResponseMessage Update(HttpRequestMessage request, ProductCategoryViewModel productCategoryViewModel)
+        {
+            return CreateHttpResponse(request, () =>
+            {
+                HttpResponseMessage response = null;
+                if (!ModelState.IsValid)
+                {
+                    response = request.CreateResponse(HttpStatusCode.BadRequest, ModelState);
+                }
+                else
+                {
+                    var dbProductCategory = _productCategoryService.GetById(productCategoryViewModel.ID);
+                    dbProductCategory.UpdateProductCategory(productCategoryViewModel);
+                    dbProductCategory.UpdatedDate = DateTime.Now;
+
+                    _productCategoryService.Update(dbProductCategory);
+                    _productCategoryService.Save();
+
+                    IMapper _mapper = AutoMapperConfiguration.Configure();
+                    var responseData = _mapper.Map<ProductCategoryViewModel>(dbProductCategory);
                     response = request.CreateResponse(HttpStatusCode.Created, responseData);
                 }
 

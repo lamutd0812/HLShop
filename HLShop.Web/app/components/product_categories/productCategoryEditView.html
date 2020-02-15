@@ -1,13 +1,13 @@
 ﻿<!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Thêm mới danh mục sản phẩm
+        Cập nhật danh mục: {{productCategory.Name}}
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
         <li><a href="#">Sản phẩm</a></li>
         <li><a ui-sref="product_categories">Danh mục </a></li>
-        <li class="active">Thêm mới</li>
+        <li class="active">Cập nhật</li>
     </ol>
 </section>
 
@@ -16,10 +16,10 @@
     <!-- Horizontal Form -->
     <div class="box box-info">
         <div class="box-header with-border">
-            <h3 class="box-title">Thêm mới danh mục sản phẩm</h3>
+            <h3 class="box-title">{{productCategory.Name}}</h3>
         </div><!-- /.box-header -->
         <!-- form start -->
-        <form class="form-horizontal" novalidate name="frmAddProductCategory" role="form" ng-submit="addProductCategory()">
+        <form class="form-horizontal" novalidate name="frmUpdateProductCategory" role="form" ng-submit="updateProductCategory()">
             <div class="box-body">
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">Tên danh mục</label>
