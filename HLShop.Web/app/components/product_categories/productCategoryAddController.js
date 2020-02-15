@@ -7,8 +7,7 @@
     function productCategoryAddController($scope, apiService, notificationService, $state, commonService) {
         $scope.productCategory = {
             CreatedDate: new Date(),
-            Status: true,
-            Name: "Danh mục 1"
+            Status: true
         }
 
         // event for submit button ("Lưu")
