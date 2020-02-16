@@ -10,14 +10,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web.Http;
+using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 namespace HLShop.Web.Api
 {
-    [RoutePrefix("api/productcategory")]
+    [System.Web.Http.RoutePrefix("api/productcategory")]
     public class ProductCategoryController : ApiControllerBase
     {
         #region Initialize
+
         private IProductCategoryService _productCategoryService;
 
         public ProductCategoryController(IErrorService errorService, IProductCategoryService productCategoryService)
@@ -25,10 +27,11 @@ namespace HLShop.Web.Api
         {
             this._productCategoryService = productCategoryService;
         }
-        #endregion
 
-        [Route("getall")]
-        [HttpGet]
+        #endregion Initialize
+
+        [System.Web.Http.Route("getall")]
+        [System.Web.Http.HttpGet]
         public HttpResponseMessage GetAll(HttpRequestMessage request, string keyword, int page, int pageSize = 20)
         {
             return CreateHttpResponse(request, () =>
@@ -56,8 +59,8 @@ namespace HLShop.Web.Api
             });
         }
 
-        [Route("getallparents")]
-        [HttpGet]
+        [System.Web.Http.Route("getallparents")]
+        [System.Web.Http.HttpGet]
         public HttpResponseMessage GetAll(HttpRequestMessage request)
         {
             return CreateHttpResponse(request, () =>
@@ -73,9 +76,9 @@ namespace HLShop.Web.Api
             });
         }
 
-        [Route("create")]
-        [HttpPost]
-        [AllowAnonymous]
+        [System.Web.Http.Route("create")]
+        [System.Web.Http.HttpPost]
+        [System.Web.Http.AllowAnonymous]
         public HttpResponseMessage Create(HttpRequestMessage request, ProductCategoryViewModel productCategoryViewModel)
         {
             return CreateHttpResponse(request, () =>
@@ -103,8 +106,8 @@ namespace HLShop.Web.Api
             });
         }
 
-        [Route("getbyid/{id:int}")]
-        [HttpGet]
+        [System.Web.Http.Route("getbyid/{id:int}")]
+        [System.Web.Http.HttpGet]
         public HttpResponseMessage GetById(HttpRequestMessage request, int id)
         {
             return CreateHttpResponse(request, () =>
@@ -120,9 +123,9 @@ namespace HLShop.Web.Api
             });
         }
 
-        [Route("update")]
-        [HttpPut]
-        [AllowAnonymous]
+        [System.Web.Http.Route("update")]
+        [System.Web.Http.HttpPut]
+        [System.Web.Http.AllowAnonymous]
         public HttpResponseMessage Update(HttpRequestMessage request, ProductCategoryViewModel productCategoryViewModel)
         {
             return CreateHttpResponse(request, () =>
@@ -150,9 +153,9 @@ namespace HLShop.Web.Api
             });
         }
 
-        [Route("delete")]
-        [HttpDelete]
-        [AllowAnonymous]
+        [System.Web.Http.Route("delete")]
+        [System.Web.Http.HttpDelete]
+        [System.Web.Http.AllowAnonymous]
         public HttpResponseMessage Delete(HttpRequestMessage request, int id)
         {
             return CreateHttpResponse(request, () =>
@@ -170,6 +173,34 @@ namespace HLShop.Web.Api
                     IMapper _mapper = AutoMapperConfiguration.Configure();
                     var responseData = _mapper.Map<ProductCategoryViewModel>(oldProductCategory);
                     response = request.CreateResponse(HttpStatusCode.Created, responseData);
+                }
+
+                return response;
+            });
+        }
+
+        [System.Web.Http.Route("deletemulti")]
+        [System.Web.Http.HttpDelete]
+        [System.Web.Http.AllowAnonymous]
+        public HttpResponseMessage DeleteMulti(HttpRequestMessage request, string checkedProductCategories)
+        {
+            return CreateHttpResponse(request, () =>
+            {
+                HttpResponseMessage response = null;
+                if (!ModelState.IsValid)
+                {
+                    response = request.CreateResponse(HttpStatusCode.BadRequest, ModelState);
+                }
+                else
+                {
+                    var listProductCategoryId = new JavaScriptSerializer().Deserialize<List<int>>(checkedProductCategories);
+                    foreach (var item in listProductCategoryId)
+                    {
+                        var oldProductCategory = _productCategoryService.Delete(item);
+                    }
+                    _productCategoryService.Save();
+
+                    response = request.CreateResponse(HttpStatusCode.OK, listProductCategoryId.Count);
                 }
 
                 return response;
