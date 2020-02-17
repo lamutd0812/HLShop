@@ -1,31 +1,31 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web.Script.Serialization;
+using AutoMapper;
 using HLShop.Model.Models;
 using HLShop.Service;
 using HLShop.Web.Infrastructure.Core;
 using HLShop.Web.Infrastructure.Extensions;
 using HLShop.Web.Mappings;
 using HLShop.Web.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Mvc;
-using System.Web.Script.Serialization;
 
 namespace HLShop.Web.Api
 {
-    [System.Web.Http.RoutePrefix("api/productcategory")]
-    public class ProductCategoryController : ApiControllerBase
+    [System.Web.Http.RoutePrefix("api/product")]
+    public class ProductController : ApiControllerBase
     {
         #region Initialize
 
-        private IProductCategoryService _productCategoryService;
+        private IProductService _productService; 
 
-        public ProductCategoryController(IErrorService errorService, IProductCategoryService productCategoryService)
+        public ProductController(IErrorService errorService, IProductService productService)
             : base(errorService)
         {
-            this._productCategoryService = productCategoryService;
+            this._productService = productService;
         }
 
         #endregion Initialize
@@ -37,16 +37,16 @@ namespace HLShop.Web.Api
             return CreateHttpResponse(request, () =>
             {
                 int totalRow = 0;
-                var model = _productCategoryService.GetAll(keyword);
+                var model = _productService.GetAll(keyword);
 
                 totalRow = model.Count();
                 var query = model.OrderByDescending(x => x.CreatedDate).Skip(page * pageSize).Take(pageSize);
 
                 //map sang PostCategoryVm (responseData)
                 IMapper _mapper = AutoMapperConfiguration.Configure();
-                var responseData = _mapper.Map<List<ProductCategoryViewModel>>(query);
+                var responseData = _mapper.Map<List<ProductViewModel>>(query);
 
-                var paginationSet = new PaginationSet<ProductCategoryViewModel>()
+                var paginationSet = new PaginationSet<ProductViewModel>()
                 {
                     Items = responseData,
                     Page = page,
@@ -65,11 +65,11 @@ namespace HLShop.Web.Api
         {
             return CreateHttpResponse(request, () =>
             {
-                var model = _productCategoryService.GetAll();
+                var model = _productService.GetAll();
 
                 //map sang PostCategoryVm (responseData)
                 IMapper _mapper = AutoMapperConfiguration.Configure();
-                var responseData = _mapper.Map<List<ProductCategoryViewModel>>(model);
+                var responseData = _mapper.Map<List<ProductViewModel>>(model);
 
                 HttpResponseMessage response = request.CreateResponse(HttpStatusCode.OK, responseData);
                 return response;
@@ -79,7 +79,7 @@ namespace HLShop.Web.Api
         [System.Web.Http.Route("create")]
         [System.Web.Http.HttpPost]
         [System.Web.Http.AllowAnonymous]
-        public HttpResponseMessage Create(HttpRequestMessage request, ProductCategoryViewModel productCategoryViewModel)
+        public HttpResponseMessage Create(HttpRequestMessage request, ProductViewModel productViewModel)
         {
             return CreateHttpResponse(request, () =>
             {
@@ -90,15 +90,15 @@ namespace HLShop.Web.Api
                 }
                 else
                 {
-                    var newProductCategory = new ProductCategory();
-                    newProductCategory.UpdateProductCategory(productCategoryViewModel);
-                    newProductCategory.CreatedDate = DateTime.Now;
+                    var newProduct = new Product();
+                    newProduct.UpdateProduct(productViewModel);
+                    newProduct.CreatedDate = DateTime.Now;
 
-                    _productCategoryService.Add(newProductCategory);
-                    _productCategoryService.Save();
+                    _productService.Add(newProduct);
+                    _productService.Save();
 
                     IMapper _mapper = AutoMapperConfiguration.Configure();
-                    var responseData = _mapper.Map<ProductCategoryViewModel>(newProductCategory);
+                    var responseData = _mapper.Map<ProductViewModel>(newProduct);
                     response = request.CreateResponse(HttpStatusCode.Created, responseData);
                 }
 
@@ -112,11 +112,11 @@ namespace HLShop.Web.Api
         {
             return CreateHttpResponse(request, () =>
             {
-                var model = _productCategoryService.GetById(id);
+                var model = _productService.GetById(id);
 
                 //map sang PostCategoryVm (responseData)
                 IMapper _mapper = AutoMapperConfiguration.Configure();
-                var responseData = _mapper.Map<ProductCategoryViewModel>(model);
+                var responseData = _mapper.Map<ProductViewModel>(model);
 
                 HttpResponseMessage response = request.CreateResponse(HttpStatusCode.OK, responseData);
                 return response;
@@ -126,7 +126,7 @@ namespace HLShop.Web.Api
         [System.Web.Http.Route("update")]
         [System.Web.Http.HttpPut]
         [System.Web.Http.AllowAnonymous]
-        public HttpResponseMessage Update(HttpRequestMessage request, ProductCategoryViewModel productCategoryViewModel)
+        public HttpResponseMessage Update(HttpRequestMessage request, ProductViewModel productViewModel)
         {
             return CreateHttpResponse(request, () =>
             {
@@ -137,15 +137,15 @@ namespace HLShop.Web.Api
                 }
                 else
                 {
-                    var dbProductCategory = _productCategoryService.GetById(productCategoryViewModel.ID);
-                    dbProductCategory.UpdateProductCategory(productCategoryViewModel);
-                    dbProductCategory.UpdatedDate = DateTime.Now;
+                    var dbProduct = _productService.GetById(productViewModel.ID);
+                    dbProduct.UpdateProduct(productViewModel);
+                    dbProduct.UpdatedDate = DateTime.Now;
 
-                    _productCategoryService.Update(dbProductCategory);
-                    _productCategoryService.Save();
+                    _productService.Update(dbProduct);
+                    _productService.Save();
 
                     IMapper _mapper = AutoMapperConfiguration.Configure();
-                    var responseData = _mapper.Map<ProductCategoryViewModel>(dbProductCategory);
+                    var responseData = _mapper.Map<ProductViewModel>(dbProduct);
                     response = request.CreateResponse(HttpStatusCode.Created, responseData);
                 }
 
@@ -167,11 +167,11 @@ namespace HLShop.Web.Api
                 }
                 else
                 {
-                    var oldProductCategory = _productCategoryService.Delete(id);
-                    _productCategoryService.Save();
+                    var oldProduct = _productService.Delete(id);
+                    _productService.Save();
 
                     IMapper _mapper = AutoMapperConfiguration.Configure();
-                    var responseData = _mapper.Map<ProductCategoryViewModel>(oldProductCategory);
+                    var responseData = _mapper.Map<ProductViewModel>(oldProduct);
                     response = request.CreateResponse(HttpStatusCode.Created, responseData);
                 }
 
@@ -193,14 +193,14 @@ namespace HLShop.Web.Api
                 }
                 else
                 {
-                    var listProductCategoryId = new JavaScriptSerializer().Deserialize<List<int>>(checkedIds);
-                    foreach (var item in listProductCategoryId)
+                    var listProductId = new JavaScriptSerializer().Deserialize<List<int>>(checkedIds);
+                    foreach (var item in listProductId)
                     {
-                        var oldProductCategory = _productCategoryService.Delete(item);
+                        var oldProductCategory = _productService.Delete(item);
                     }
-                    _productCategoryService.Save();
+                    _productService.Save();
 
-                    response = request.CreateResponse(HttpStatusCode.OK, listProductCategoryId.Count);
+                    response = request.CreateResponse(HttpStatusCode.OK, listProductId.Count);
                 }
 
                 return response;

@@ -72,7 +72,7 @@
             });
             var config = {
                 params: {
-                    checkedProductCategories: JSON.stringify(listId)
+                    checkedIds: JSON.stringify(listId)
                 }
             }
             apiService.del('/api/productcategory/deletemulti', config, function(result) {

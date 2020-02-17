@@ -18,31 +18,9 @@ namespace HLShop.Service
 
         IEnumerable<Product> GetAll(string keyword);
 
-        IEnumerable<Product> GetLastest(int top);
-
-        IEnumerable<Product> GetHotProduct(int top);
-
-        IEnumerable<Product> GetListProductByCategoryIdPaging(int categoryId, int page, int pageSize, string sort, out int totalRow);
-
-        IEnumerable<Product> Search(string keyword, int page, int pageSize, string sort, out int totalRow);
-
-        IEnumerable<Product> GetRelatedProducts(int id, int top);
-
-        IEnumerable<Product> GetListProductByName(string name);
-
         Product GetById(int id);
 
         void Save();
-
-        IEnumerable<Tag> GetListTagByProductId(int id);
-
-        Tag GetTag(string tagId);
-
-        void IncreaseView(int id);
-
-        IEnumerable<Product> GetListProductByTag(string tagId, int page, int pagesize, out int totalRow);
-
-        bool SellProduct(int productId, int quantity);
     }
 
     public class ProductService : IProductService
@@ -63,92 +41,45 @@ namespace HLShop.Service
 
         public Product Add(Product product)
         {
-            throw new NotImplementedException();
+            return _productRepository.Add(product);
         }
 
         public void Update(Product product)
         {
-            throw new NotImplementedException();
+            _productRepository.Update(product);
         }
 
         public Product Delete(int id)
         {
-            throw new NotImplementedException();
+            return _productRepository.Delete(id);
         }
 
         public IEnumerable<Product> GetAll()
         {
-            throw new NotImplementedException();
+            return _productRepository.GetAll();
         }
 
         public IEnumerable<Product> GetAll(string keyword)
         {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Product> GetLastest(int top)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Product> GetHotProduct(int top)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Product> GetListProductByCategoryIdPaging(int categoryId, int page, int pageSize, string sort, out int totalRow)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Product> Search(string keyword, int page, int pageSize, string sort, out int totalRow)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Product> GetRelatedProducts(int id, int top)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Product> GetListProductByName(string name)
-        {
-            throw new NotImplementedException();
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                return _productRepository.GetMulti(x =>
+                    x.Name.Contains(keyword) || x.Description.Contains(keyword));
+            }
+            else
+            {
+                return _productRepository.GetAll();
+            }
         }
 
         public Product GetById(int id)
         {
-            throw new NotImplementedException();
+            return _productRepository.GetSingleById(id);
         }
 
         public void Save()
         {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Tag> GetListTagByProductId(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Tag GetTag(string tagId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void IncreaseView(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Product> GetListProductByTag(string tagId, int page, int pagesize, out int totalRow)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool SellProduct(int productId, int quantity)
-        {
-            throw new NotImplementedException();
+            _unitOfWork.Commit();
         }
     }
 }
