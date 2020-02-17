@@ -10,7 +10,7 @@
             Status: true
         }
 
-        //cau hinh ck editor de them san pham
+        //cau hinh ck editor
         $scope.ckeditorOptions = {
             language: 'vi',
             height: '200px'
@@ -32,6 +32,16 @@
         $scope.getSeoTittle = getSeoTittle;
         function getSeoTittle() {
             $scope.product.Alias = commonService.getSeoTitle($scope.product.Name);
+        }
+
+        //Choose image
+        $scope.chooseImage = chooseImage;
+        function chooseImage() {
+            var finder = new CKFinder();
+            finder.selectActionFunction = function(fileUrl) {
+                $scope.product.Image = fileUrl;
+            }
+            finder.popup();
         }
 
         function loadProductCategories() {

@@ -47,10 +47,10 @@
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">Danh mục</label>
                     <div class="col-sm-10">
-                        <select name="parentId" required class="form-control" ng-model="product.CategoryID" ng-options="option.ID as option.Name for option in productCategories ">
+                        <select name="categoryID" required class="form-control" ng-model="product.CategoryID" ng-options="option.ID as option.Name for option in productCategories ">
                             <option value="">Chọn danh mục</option>
                         </select>
-                        <span ng-show="frmAddProduct.CategoryID.$invalid" class="has-error"><i> Phải chọn danh mục!</i></span><br />
+                        <span ng-show="frmAddProduct.categoryID.$invalid" class="has-error"><i> Phải chọn danh mục!</i></span><br />
                         <input type="hidden" name="categoryID" ng-model="product.CategoryID" />
                     </div>
                 </div>
@@ -78,6 +78,7 @@
                     <div class="col-sm-10">
                         <input type="text" class="form-control" name="image" ng-maxlength="256" ng-model="product.Image">
                         <span ng-show="frmAddProduct.image.$error.maxlength" class="has-error"><i> Tên hình ảnh chỉ được dài tối đa 256 ký tự!</i></span>
+                        <button class="btn btn-default" ng-click="chooseImage()">Chọn ảnh</button>
                     </div>
                 </div>
                 <div class="form-group">
@@ -114,7 +115,7 @@
                 </div>
             </div><!-- /.box-body -->
             <div class="box-footer">
-                <button ui-sref="product_categories" class="btn btn-default">Hủy</button>
+                <button ui-sref="products" class="btn btn-default">Hủy</button>
                 <button type="submit" ng-disabled="frmAddProduct.$invalid" class="btn btn-success pull-right">Lưu</button>
             </div><!-- /.box-footer -->
         </form>
