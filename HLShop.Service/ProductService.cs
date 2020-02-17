@@ -1,7 +1,7 @@
-﻿using HLShop.Data.Infrastructure;
+﻿using HLShop.Common;
+using HLShop.Data.Infrastructure;
 using HLShop.Data.Repositories;
 using HLShop.Model.Models;
-using System;
 using System.Collections.Generic;
 
 namespace HLShop.Service
@@ -41,12 +41,62 @@ namespace HLShop.Service
 
         public Product Add(Product product)
         {
-            return _productRepository.Add(product);
+            var productToAdd = _productRepository.Add(product);
+            _unitOfWork.Commit();
+
+            if (!string.IsNullOrEmpty(product.Tags))
+            {
+                string[] tags = product.Tags.Split(',');
+                for (var i = 0; i < tags.Length; i++)
+                {
+                    var tagId = StringHelper.ToUnsignString(tags[i]);
+                    if (_tagRepository.Count(x => x.ID == tagId) == 0)
+                    {
+                        Tag tag = new Tag();
+                        tag.ID = tagId;
+                        tag.Name = tags[i];
+                        tag.Type = CommonConstants.ProductTag;
+                        _tagRepository.Add(tag);
+                    }
+
+                    ProductTag productTag = new ProductTag();
+                    productTag.ProductID = product.ID;
+                    productTag.TagID = tagId;
+                    _productTagRepository.Add(productTag);
+                }
+            }
+
+            return productToAdd;
         }
 
         public void Update(Product product)
         {
             _productRepository.Update(product);
+
+            if (!string.IsNullOrEmpty(product.Tags))
+            {
+                string[] tags = product.Tags.Split(',');
+                for (var i = 0; i < tags.Length; i++)
+                {
+                    var tagId = StringHelper.ToUnsignString(tags[i]);
+                    if (_tagRepository.Count(x => x.ID == tagId) == 0)
+                    {
+                        Tag tag = new Tag();
+                        tag.ID = tagId;
+                        tag.Name = tags[i];
+                        tag.Type = CommonConstants.ProductTag;
+                        _tagRepository.Add(tag);
+                    }
+
+                    // truoc khi update phai xoa all ProductTag dang co
+                    _productTagRepository.DeleteMulti(x => x.ProductID == product.ID);
+
+                    ProductTag productTag = new ProductTag();
+                    productTag.ProductID = product.ID;
+                    productTag.TagID = tagId;
+                    _productTagRepository.Add(productTag);
+                }
+            }
         }
 
         public Product Delete(int id)

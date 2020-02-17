@@ -28,6 +28,7 @@
             $scope.productCategory.Alias = commonService.getSeoTitle($scope.productCategory.Name);
         }
 
+        //load product category detail infor
         function loadProductCategoryDetail() {
             apiService.get('/api/productcategory/getbyid/' + $stateParams.id, null,
                 function(result) {
