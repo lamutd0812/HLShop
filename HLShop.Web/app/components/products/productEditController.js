@@ -6,6 +6,7 @@
     //note: $state: là đối tượng của ui-router dùng để route
     function productEditController($scope, apiService, notificationService, $state, commonService, $stateParams) {
         $scope.product = {};
+        $scope.moreImages = [];
 
         //cau hinh ck editor
         $scope.ckeditorOptions = {
@@ -18,6 +19,7 @@
             apiService.get('/api/product/getbyid/' + $stateParams.id, null,
                 function (result) {
                     $scope.product = result.data;
+                    $scope.moreImages = JSON.parse($scope.product.MoreImages); // convert JSON to array
                 },
                 function (error) {
                     notificationService.displayError(error.data);
@@ -27,6 +29,7 @@
         // event for submit button ("Lưu")
         $scope.updateProduct = updateProduct;
         function updateProduct() {
+            $scope.product.MoreImages = JSON.stringify($scope.moreImages); 
             apiService.put('/api/product/update', $scope.product,
                 function (result) {
                     notificationService.displaySuccess(result.data.Name + ' đã được cập nhật!');
@@ -47,7 +50,21 @@
         function chooseImage() {
             var finder = new CKFinder();
             finder.selectActionFunction = function (fileUrl) {
-                $scope.product.Image = fileUrl;
+                $scope.$apply(function() {
+                    $scope.product.Image = fileUrl; 
+                });
+            }
+            finder.popup();
+        }
+
+        //Choose more images
+        $scope.chooseMoreImages = chooseMoreImages;
+        function chooseMoreImages() {
+            var finder = new CKFinder();
+            finder.selectActionFunction = function (fileUrl) {
+                $scope.$apply(function () {
+                    $scope.moreImages.push(fileUrl);
+                });
             }
             finder.popup();
         }
