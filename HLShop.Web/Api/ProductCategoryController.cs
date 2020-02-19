@@ -16,6 +16,7 @@ using System.Web.Script.Serialization;
 namespace HLShop.Web.Api
 {
     [System.Web.Http.RoutePrefix("api/productcategory")]
+    [Authorize]
     public class ProductCategoryController : ApiControllerBase
     {
         #region Initialize
@@ -93,6 +94,7 @@ namespace HLShop.Web.Api
                     var newProductCategory = new ProductCategory();
                     newProductCategory.UpdateProductCategory(productCategoryViewModel);
                     newProductCategory.CreatedDate = DateTime.Now;
+                    newProductCategory.CreatedBy = User.Identity.Name;
 
                     _productCategoryService.Add(newProductCategory);
                     _productCategoryService.Save();
@@ -140,6 +142,7 @@ namespace HLShop.Web.Api
                     var dbProductCategory = _productCategoryService.GetById(productCategoryViewModel.ID);
                     dbProductCategory.UpdateProductCategory(productCategoryViewModel);
                     dbProductCategory.UpdatedDate = DateTime.Now;
+                    dbProductCategory.UpdatedBy = User.Identity.Name;
 
                     _productCategoryService.Update(dbProductCategory);
                     _productCategoryService.Save();

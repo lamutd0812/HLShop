@@ -13,6 +13,7 @@ using HLShop.Web.Mappings;
 namespace HLShop.Web
 {
     [RoutePrefix("api/postcategory")]
+    [Authorize]
     public class PostCategoryController : ApiControllerBase
     {
 

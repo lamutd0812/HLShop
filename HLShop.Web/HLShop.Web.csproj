@@ -192,6 +192,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\AccountController.cs" />
+    <Compile Include="Api\HomeController.cs" />
     <Compile Include="Api\PostCategoryController.cs" />
     <Compile Include="Api\ProductCategoryController.cs" />
     <Compile Include="Api\ProductController.cs" />
@@ -246,7 +247,10 @@
     <Content Include="app\shared\filters\statusFilter.js" />
     <Content Include="app\shared\modules\hlshop.common.js" />
     <Content Include="app\shared\services\apiService.js" />
+    <Content Include="app\shared\services\authData.js" />
+    <Content Include="app\shared\services\authenticationService.js" />
     <Content Include="app\shared\services\commonService.js" />
+    <Content Include="app\shared\services\loginService.js" />
     <Content Include="app\shared\services\notificationService.js" />
     <Content Include="app\shared\views\baseView.html" />
     <Content Include="Assets\admin\css\AdminLTE.css" />
@@ -278,7 +282,7 @@
     <Content Include="Assets\admin\css\skins\skin-yellow.min.css" />
     <Content Include="Assets\admin\css\skins\_all-skins.css" />
     <Content Include="Assets\admin\css\skins\_all-skins.min.css" />
-    <Content Include="Assets\admin\img\avatar.png" />
+    <Content Include="Assets\admin\img\avatar.jpg" />
     <Content Include="Assets\admin\img\avatar04.png" />
     <Content Include="Assets\admin\img\avatar2.png" />
     <Content Include="Assets\admin\img\avatar3.png" />
@@ -286,7 +290,6 @@
     <Content Include="Assets\admin\img\boxed-bg.jpg" />
     <Content Include="Assets\admin\img\boxed-bg.png" />
     <Content Include="Assets\admin\img\credit\american-express.png" />
-    <Content Include="Assets\admin\img\credit\avatar.png" />
     <Content Include="Assets\admin\img\credit\cirrus.png" />
     <Content Include="Assets\admin\img\credit\mastercard.png" />
     <Content Include="Assets\admin\img\credit\mestro.png" />
