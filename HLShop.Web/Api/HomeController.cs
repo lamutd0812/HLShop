@@ -18,12 +18,5 @@ namespace HLShop.Web.Api
         {
             this._errorService = errorService;
         }
-
-        //[HttpGet]
-        //[Route("TestMethod")]
-        //public string TestMethod()
-        //{
-        //    return "Hello, TEDU x HuuLam member!";
-        //}
     }
 }
