@@ -1,5 +1,6 @@
 ﻿using HLShop.Model.Models;
 using System.Collections.Generic;
+using HLShop.Common;
 
 namespace HLShop.Data.Migrations
 {
@@ -63,5 +64,13 @@ namespace HLShop.Data.Migrations
                 context.SaveChanges();
             }
         }
+
+        //private void CreateFooter(HLShopDbContext context)
+        //{
+        //    if (context.Footers.Count(x => x.ID == CommonConstants.DefaultFooterId) == 0)
+        //    {
+        //        string content = "";
+        //    }
+        //}
     }
 }
