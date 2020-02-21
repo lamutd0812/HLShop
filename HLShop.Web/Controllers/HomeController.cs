@@ -13,16 +13,34 @@ namespace HLShop.Web.Controllers
     public class HomeController : Controller
     {
         private IProductCategoryService _productCategoryService;
+        private IProductService _productService;
         private ICommonService _commonService;
-        public HomeController(IProductCategoryService productCategoryService, ICommonService commonService)
+        public HomeController(IProductCategoryService productCategoryService, IProductService productService, ICommonService commonService)
         {
             this._productCategoryService = productCategoryService;
+            this._productService = productService;
             this._commonService = commonService;
         }
 
         public ActionResult Index()
         {
-            return View();
+            IMapper _mapper = AutoMapperConfiguration.Configure();
+
+            var slideModels = _commonService.GetSlides();
+            var listSlideViewModel = _mapper.Map<IEnumerable<SlideViewModel>>(slideModels);
+            
+
+            var lastestProductModels = _productService.GetLastest(3);
+            var listLastestProductViewModel = _mapper.Map<IEnumerable<ProductViewModel>>(lastestProductModels);
+
+            var topSaleProductModels = _productService.GetHotProduct(3);
+            var listTopSaleProductViewModel = _mapper.Map<IEnumerable<ProductViewModel>>(topSaleProductModels);
+
+            var homeViewModel = new HomeViewModel();
+            homeViewModel.Slides = listSlideViewModel;
+            homeViewModel.LastestProducts = listLastestProductViewModel;
+            homeViewModel.TopSaleProducts = listTopSaleProductViewModel;
+            return View(homeViewModel);
         }
 
         [ChildActionOnly]
