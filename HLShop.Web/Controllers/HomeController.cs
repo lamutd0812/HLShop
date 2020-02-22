@@ -59,7 +59,7 @@ namespace HLShop.Web.Controllers
         }
 
         [ChildActionOnly]
-        public ActionResult Category()
+        public ActionResult ListCategory()
         {
             var model = _productCategoryService.GetAll();
             //map sang ProductCategoryVm (responseData)

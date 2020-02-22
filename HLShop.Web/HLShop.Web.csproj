@@ -4991,6 +4991,8 @@
     <Content Include="Assets\client\images\img-sprite.png" />
     <Content Include="Assets\client\images\label_new.png" />
     <Content Include="Assets\client\images\logo.png" />
+    <Content Include="Assets\client\images\logoNew.JPG" />
+    <Content Include="Assets\client\images\logoNew2.jpg" />
     <Content Include="Assets\client\images\pi.jpg" />
     <Content Include="Assets\client\images\pi1.jpg" />
     <Content Include="Assets\client\images\pi2.jpg" />
@@ -5027,6 +5029,7 @@
     <Content Include="Assets\client\images\wa.jpg" />
     <Content Include="Assets\client\images\wat.jpg" />
     <Content Include="Assets\client\images\zoom.png" />
+    <Content Include="Assets\client\js\common.js" />
     <Content Include="Assets\client\js\jquery.etalage.min.js" />
     <Content Include="Assets\client\js\jquery.flexisel.js" />
     <Content Include="Assets\client\js\jquery.min.js" />
@@ -5374,8 +5377,9 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Footer.cshtml" />
     <Content Include="Views\Shared\Header.cshtml" />
-    <Content Include="Views\Shared\Category.cshtml" />
     <Content Include="Views\Product\Category.cshtml" />
+    <Content Include="Views\Product\Search.cshtml" />
+    <Content Include="Views\Shared\ListCategory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HLShop.Common\HLShop.Common.csproj">
