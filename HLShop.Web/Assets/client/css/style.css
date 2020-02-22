@@ -16,7 +16,7 @@ body a{
 	-moz-transition: 0.5s all;
 }
 .top-header{
-	background: #F97E76;
+	background: #daa520;
 	padding: 0.7em 0;
 }
 .top-header-left{
@@ -63,7 +63,7 @@ ul.support li a {
 }
 .header-bottom-left{
 	float: left;
-	width: 55%;
+	width: 53%;
 }
 .logo{
 	float:left;
@@ -72,7 +72,7 @@ ul.support li a {
 }
 .header-bottom-right{
 	float: right;
-	width: 37%;
+	width: 46%;
 	text-align: center;
 	padding-top:1.7em;
 }

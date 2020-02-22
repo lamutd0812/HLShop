@@ -4965,6 +4965,7 @@
     <Content Include="Assets\admin\libs\toastr\toastr.min.css" />
     <Content Include="Assets\admin\libs\toastr\toastr.min.js" />
     <Content Include="Assets\client\css\bootstrap.css" />
+    <Content Include="Assets\client\css\custom.css" />
     <Content Include="Assets\client\css\etalage.css" />
     <Content Include="Assets\client\css\form.css" />
     <Content Include="Assets\client\css\style.css" />
@@ -5009,6 +5010,7 @@
     <Content Include="Assets\client\images\pic7.jpg" />
     <Content Include="Assets\client\images\pic8.jpg" />
     <Content Include="Assets\client\images\review.png" />
+    <Content Include="Assets\client\images\Roma1.jpg" />
     <Content Include="Assets\client\images\rss.png" />
     <Content Include="Assets\client\images\s1.jpg" />
     <Content Include="Assets\client\images\s2.jpg" />
