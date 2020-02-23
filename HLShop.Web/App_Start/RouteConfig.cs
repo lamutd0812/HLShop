@@ -55,6 +55,14 @@ namespace HLShop.Web
                 namespaces: new string[] { "HLShop.Web.Controllers" }
             );
 
+            // other pages
+            routes.MapRoute(
+                name: "Page",
+                url: "trang/{alias}.html",
+                defaults: new { controller = "Page", action = "Index", alias= UrlParameter.Optional },
+                namespaces: new string[] { "HLShop.Web.Controllers" }
+            );
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
