@@ -29,6 +29,8 @@ namespace HLShop.Service
 
         IEnumerable<string> GetListProductByName(string keyword);
 
+        IEnumerable<Product> GetListRelatedProduct(int id, int top);
+
         Product GetById(int id);
 
         void Save();
@@ -208,6 +210,14 @@ namespace HLShop.Service
         public IEnumerable<string> GetListProductByName(string keyword)
         {
             return _productRepository.GetMulti(x => x.Status == true && x.Name.Contains(keyword)).Select(y => y.Name);
+        }
+
+        public IEnumerable<Product> GetListRelatedProduct(int id, int top)
+        {
+            var product = _productRepository.GetSingleById(id);
+            return _productRepository
+                .GetMulti(x => x.Status == true && x.ID != id && x.CategoryID == product.CategoryID)
+                .OrderByDescending(x => x.CreatedDate).Take(top);
         }
 
         public Product GetById(int id)

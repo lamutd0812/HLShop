@@ -7,6 +7,7 @@ using HLShop.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 namespace HLShop.Web.Controllers
 {
@@ -24,7 +25,21 @@ namespace HLShop.Web.Controllers
         // GET: Product
         public ActionResult Detail(int productId)
         {
-            return View();
+            var productModel = _productService.GetById(productId);
+
+            IMapper mapper = AutoMapperConfiguration.Configure();
+            var productViewModel = mapper.Map<ProductViewModel>(productModel);
+
+            //related product
+            var listRelatedProduct = _productService.GetListRelatedProduct(productId, 6);
+            ViewBag.ListRelatedProductViewModel = mapper.Map<IEnumerable<ProductViewModel>>(listRelatedProduct);
+
+            //more image
+            var moreImages = productViewModel.MoreImages;
+            List<string> listImages = new JavaScriptSerializer().Deserialize<List<string>>(moreImages);
+            ViewBag.MoreImages = listImages; 
+
+            return View(productViewModel);
         }
 
         public ActionResult Category(int id, int page = 1, string sort = "")
@@ -56,8 +71,6 @@ namespace HLShop.Web.Controllers
         public JsonResult GetListProductByName(string keyword)
         {
             var model = _productService.GetListProductByName(keyword);
-            //IMapper mapper = AutoMapperConfiguration.Configure();
-            //var listProductViewModel = mapper.Map<IEnumerable<ProductViewModel>>(listProductModel);
 
             return Json(new
             {
