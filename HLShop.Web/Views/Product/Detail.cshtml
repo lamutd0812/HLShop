@@ -1,4 +1,5 @@
-﻿@using HLShop.Web.Models
+﻿@using HLShop.Model.Models
+@using HLShop.Web.Models
 @model HLShop.Web.Models.ProductViewModel
 
 @{
@@ -9,6 +10,7 @@
 @{
     var relatedProducts = (IEnumerable<ProductViewModel>)ViewBag.ListRelatedProductViewModel;
     var moreImages = (List<string>)ViewBag.MoreImages;
+    var tags = (IEnumerable<TagViewModel>) ViewBag.Tags;
 }
 
 <!--etalage CSS-->
@@ -41,7 +43,7 @@
                     }
                 }
             });
-
+            // cau hinh etalage
             $('#etalage').etalage({
                 thumb_image_width: 300,
                 thumb_image_height: 300,
@@ -89,8 +91,18 @@
             </div>
             <h6>Còn @Model.Quantity sản phẩm</h6>
             <p>@Model.Description</p>
+            <div class="tag">
+                <h5><b>Tags:</b></h5>
+                <ul class="share_nav">
+                    @foreach (var tag in tags)
+                    {
+                        <li style="float: left"><a href="/tag/@(tag.ID).html">@tag.Name</a></li>
+                    }
+                </ul>
+            </div>
+            <div class="clearfix"></div>
             <div class="share">
-                <h5>Chia sẻ: </h5>
+                <h5><b>Chia sẻ:</b></h5>
                 <ul class="share_nav">
                     <li><a href="#"><img src="/Assets/client/images/facebook.png" title="facebook"></a></li>
                     <li><a href="#"><img src="/Assets/client/images/twitter.png" title="Twiiter"></a></li>
@@ -108,7 +120,7 @@
                 <img src="@product.Image" />
                 <div class="grid-flex">
                     <a href="/@(product.Alias).p-@(product.ID).html">@product.Name</a>
-                    <p>@product.Price$""</p>
+                    <p>@product.Price$</p>
                 </div>
             </li>
         }

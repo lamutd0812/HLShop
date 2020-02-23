@@ -39,6 +39,11 @@ namespace HLShop.Web.Controllers
             List<string> listImages = new JavaScriptSerializer().Deserialize<List<string>>(moreImages);
             ViewBag.MoreImages = listImages; 
 
+            //tags
+            var listTagModel = _productService.GetListTagByProductId(productId);
+            var listTagViewModel = mapper.Map<IEnumerable<TagViewModel>>(listTagModel);
+            ViewBag.Tags = listTagViewModel;
+
             return View(productViewModel);
         }
 
@@ -90,6 +95,33 @@ namespace HLShop.Web.Controllers
             int totalPage = (int)Math.Ceiling((double)totalRow / pageSize);
 
             ViewBag.Keyword = keyword;
+
+            var paginationSet = new PaginationSet<ProductViewModel>()
+            {
+                Items = listProductViewModel,
+                MaxPage = int.Parse(ConfigHelper.GetByKey("MaxPage")),
+                Page = page,
+                TotalCount = totalRow,
+                TotalPages = totalPage
+            };
+
+            return View(paginationSet);
+        }
+
+        public ActionResult GetListProductByTag(string tagId, int page = 1)
+        {
+            int pageSize = int.Parse(ConfigHelper.GetByKey("PageSize"));
+            int totalRow = 0;
+            var listProductModel = _productService.GetListProductByTag(tagId, page, pageSize, out totalRow);
+
+            IMapper mapper = AutoMapperConfiguration.Configure();
+            var listProductViewModel = mapper.Map<IEnumerable<ProductViewModel>>(listProductModel);
+
+            int totalPage = (int)Math.Ceiling((double)totalRow / pageSize);
+
+            var tagModel = _productService.GetTag(tagId);
+            var tagViewModel = mapper.Map<TagViewModel>(tagModel);
+            ViewBag.Tag = tagViewModel;
 
             var paginationSet = new PaginationSet<ProductViewModel>()
             {
