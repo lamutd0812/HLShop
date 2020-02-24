@@ -73,6 +73,29 @@ namespace HLShop.Web.Controllers
             return View(paginationSet);
         }
 
+        public ActionResult GetAllProduct(int page = 1, string sort = "")
+        {
+            int pageSize = int.Parse(ConfigHelper.GetByKey("PageSize"));
+            int totalRow = 0;
+
+            var listProduct = _productService.GetAllByPaging(page, sort, pageSize, out totalRow);
+
+            IMapper mapper = AutoMapperConfiguration.Configure();
+            var listProductVm = mapper.Map<IEnumerable<ProductViewModel>>(listProduct);
+
+            int totalPage = (int)Math.Ceiling((double)totalRow / pageSize);
+            var paginationSet = new PaginationSet<ProductViewModel>()
+            {
+                Items = listProductVm,
+                MaxPage = int.Parse(ConfigHelper.GetByKey("MaxPage")),
+                Page = page,
+                TotalCount = totalRow,
+                TotalPages = totalPage
+            };
+
+            return View(paginationSet);
+        }
+
         public JsonResult GetListProductByName(string keyword)
         {
             var model = _productService.GetListProductByName(keyword);

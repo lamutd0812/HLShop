@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 using AutoMapper;
 using HLShop.Service;
 using HLShop.Web.Mappings;
@@ -22,6 +23,7 @@ namespace HLShop.Web.Controllers
             this._commonService = commonService;
         }
 
+        [OutputCache(Duration = 60, Location = OutputCacheLocation.Server)]
         public ActionResult Index()
         {
             IMapper _mapper = AutoMapperConfiguration.Configure();
@@ -44,11 +46,15 @@ namespace HLShop.Web.Controllers
         }
 
         [ChildActionOnly]
+        [OutputCache(Duration = 3600)]
         public ActionResult Footer()
         {
             var footerModel = _commonService.GetFooter();
             IMapper _mapper = AutoMapperConfiguration.Configure();
             var footerViewModel = _mapper.Map<FooterViewModel>(footerModel);
+
+            //ViewBag.Time = DateTime.Now.ToString("T");
+
             return PartialView(footerViewModel);
         }
 
@@ -59,6 +65,7 @@ namespace HLShop.Web.Controllers
         }
 
         [ChildActionOnly]
+        [OutputCache(Duration = 3600)]
         public ActionResult ListCategory()
         {
             var model = _productCategoryService.GetAll();

@@ -5385,6 +5385,7 @@
     <Content Include="Views\Product\Detail.cshtml" />
     <Content Include="Views\Product\GetListProductByTag.cshtml" />
     <Content Include="Views\Page\Index.cshtml" />
+    <Content Include="Views\Product\GetAllProduct.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HLShop.Common\HLShop.Common.csproj">

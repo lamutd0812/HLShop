@@ -35,6 +35,13 @@ namespace HLShop.Web
             );
 
             routes.MapRoute(
+                name: "All Product",
+                url: "san-pham.html",
+                defaults: new { controller = "Product", action = "GetAllProduct", productId = UrlParameter.Optional },
+                namespaces: new string[] { "HLShop.Web.Controllers" }
+            );
+
+            routes.MapRoute(
                 name: "Product",
                 url: "{alias}.p-{productId}.html",
                 defaults: new { controller = "Product", action = "Detail", productId = UrlParameter.Optional },

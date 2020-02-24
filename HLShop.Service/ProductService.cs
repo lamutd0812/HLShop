@@ -17,6 +17,8 @@ namespace HLShop.Service
 
         IEnumerable<Product> GetAll();
 
+        IEnumerable<Product> GetAllByPaging(int page, string sort, int pageSize, out int totalRow);
+
         IEnumerable<Product> GetAll(string keyword);
 
         IEnumerable<Product> GetLastest(int top);
@@ -128,6 +130,37 @@ namespace HLShop.Service
         public IEnumerable<Product> GetAll()
         {
             return _productRepository.GetAll();
+        }
+
+        public IEnumerable<Product> GetAllByPaging(int page, string sort, int pageSize, out int totalRow)
+        {
+            var query = _productRepository.GetAll();
+
+            switch (sort)
+            {
+                case "popular":
+                    query = query.OrderByDescending(x => x.ViewCount);
+                    break;
+
+                case "discount":
+                    query = query.OrderByDescending(x => x.PromotionPrice.HasValue);
+                    break;
+
+                case "priceLowToHight":
+                    query = query.OrderBy(x => x.Price);
+                    break;
+
+                case "priceHightToLow":
+                    query = query.OrderByDescending(x => x.Price);
+                    break;
+
+                default:
+                    query = query.OrderByDescending(x => x.CreatedDate);
+                    break;
+            }
+
+            totalRow = query.Count();
+            return query.Skip((page - 1) * pageSize).Take(pageSize);
         }
 
         public IEnumerable<Product> GetAll(string keyword)
