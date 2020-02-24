@@ -19,6 +19,7 @@ namespace HLShop.Data.Migrations
             CreateProductCategorySample(context);
             CreateSlide(context);
             CreatePage(context);
+            CreateContextDetail(context);
 
             //  This method will be called after migrating to the latest version.
 
@@ -127,6 +128,27 @@ namespace HLShop.Data.Migrations
 
                 };
                 context.Pages.Add(page);
+                context.SaveChanges();
+            }
+        }
+
+        private void CreateContextDetail(HLShopDbContext context)
+        {
+            if (context.ContactDetails.Count() == 0)
+            {
+                var contactDetail = new ContactDetail()
+                {
+                    Name = "HULA Sports",
+                    Phone = "0984545747",
+                    Email = "lamutd0812@gmail.com",
+                    Website = "http://hulasports.vn",
+                    Address = "Thanh Binh service complex, Thanh Binh, Chuong My, Hanoi",
+                    Other = "",
+                    Lat = 20.9138613,
+                    Lng = 105.6266398,
+                    Status = true
+                };
+                context.ContactDetails.Add(contactDetail);
                 context.SaveChanges();
             }
         }

@@ -13,12 +13,12 @@ namespace HLShop.Web
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapRoute(
-                name: "About",
-                url: "gioi-thieu.html",
-                defaults: new { controller = "About", action = "Index", id = UrlParameter.Optional },
-                namespaces:new string[] { "HLShop.Web.Controllers" }
-            );
+            //routes.MapRoute(
+            //    name: "About",
+            //    url: "gioi-thieu.html",
+            //    defaults: new { controller = "About", action = "Index", id = UrlParameter.Optional },
+            //    namespaces:new string[] { "HLShop.Web.Controllers" }
+            //);
 
             routes.MapRoute(
                 name: "Login",
@@ -37,7 +37,7 @@ namespace HLShop.Web
             routes.MapRoute(
                 name: "All Product",
                 url: "san-pham.html",
-                defaults: new { controller = "Product", action = "GetAllProduct", productId = UrlParameter.Optional },
+                defaults: new { controller = "Product", action = "GetAllProduct", id = UrlParameter.Optional },
                 namespaces: new string[] { "HLShop.Web.Controllers" }
             );
 
@@ -51,7 +51,7 @@ namespace HLShop.Web
             routes.MapRoute(
                 name: "Search",
                 url: "tim-kiem.html",
-                defaults: new { controller = "Product", action = "Search", productId = UrlParameter.Optional },
+                defaults: new { controller = "Product", action = "Search",id = UrlParameter.Optional },
                 namespaces: new string[] { "HLShop.Web.Controllers" }
             );
 
@@ -67,6 +67,14 @@ namespace HLShop.Web
                 name: "Page",
                 url: "trang/{alias}.html",
                 defaults: new { controller = "Page", action = "Index", alias= UrlParameter.Optional },
+                namespaces: new string[] { "HLShop.Web.Controllers" }
+            );
+
+            //trang contact
+            routes.MapRoute(
+                name: "Contact",
+                url: "lien-he.html",
+                defaults: new { controller = "Contact", action = "Index", id = UrlParameter.Optional },
                 namespaces: new string[] { "HLShop.Web.Controllers" }
             );
 

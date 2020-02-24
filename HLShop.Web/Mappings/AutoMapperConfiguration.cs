@@ -19,6 +19,7 @@ namespace HLShop.Web.Mappings
                 cfg.CreateMap<Footer, FooterViewModel>();
                 cfg.CreateMap<Slide, SlideViewModel>();
                 cfg.CreateMap<Page, PageViewModel>();
+                cfg.CreateMap<ContactDetail, ContactDetailViewModel>();
             });
 
             var mapper = config.CreateMapper();
