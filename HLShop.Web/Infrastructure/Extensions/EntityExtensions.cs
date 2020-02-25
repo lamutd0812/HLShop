@@ -1,4 +1,5 @@
-﻿using HLShop.Model.Models;
+﻿using System;
+using HLShop.Model.Models;
 using HLShop.Web.Models;
 using System.Collections.Generic;
 
@@ -94,6 +95,16 @@ namespace HLShop.Web.Infrastructure.Extensions
             product.Status = productVm.Status;
             product.Tags = productVm.Tags;
             product.Quantity = productVm.Quantity;
+        }
+
+        public static void UpdateFeedback(this Feedback feedback, FeedbackViewModel feedbackVm)
+        {
+            feedback.ID = feedbackVm.ID;
+            feedback.Name = feedbackVm.Name;
+            feedback.Email = feedbackVm.Email;
+            feedback.Message = feedbackVm.Message;
+            feedback.CreatedDate = DateTime.Now;
+            feedback.Status = feedbackVm.Status;    
         }
     }
 }
