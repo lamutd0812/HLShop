@@ -23,10 +23,19 @@ namespace HLShop.Web
             //    namespaces:new string[] { "HLShop.Web.Controllers" }
             //);
 
+            //login
             routes.MapRoute(
                 name: "Login",
                 url: "dang-nhap.html",
                 defaults: new { controller = "Account", action = "Login", id = UrlParameter.Optional },
+                namespaces: new string[] { "HLShop.Web.Controllers" }
+            );
+
+            //register account
+            routes.MapRoute(
+                name: "Register",
+                url: "dang-ky.html",
+                defaults: new { controller = "Account", action = "Index", id = UrlParameter.Optional },
                 namespaces: new string[] { "HLShop.Web.Controllers" }
             );
 

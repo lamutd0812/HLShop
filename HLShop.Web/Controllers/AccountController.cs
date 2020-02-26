@@ -1,17 +1,124 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using HLShop.Model.Models;
+using HLShop.Web.App_Start;
+using HLShop.Web.Models;
+using Microsoft.AspNet.Identity.Owin;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using BotDetect.Web.Mvc;
+using HLShop.Common;
 
 namespace HLShop.Web.Controllers
 {
     public class AccountController : Controller
     {
-        // GET: Account 
+        private ApplicationSignInManager _signInManager;
+        private ApplicationUserManager _userManager;
+
+        public AccountController()
+        {
+        }
+
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        {
+            UserManager = userManager;
+            SignInManager = signInManager;
+        }
+
+        public ApplicationSignInManager SignInManager
+        {
+            get
+            {
+                return _signInManager ?? System.Web.HttpContext.Current.GetOwinContext().Get<ApplicationSignInManager>();
+            }
+            private set
+            {
+                _signInManager = value;
+            }
+        }
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
+        public ActionResult Index()
+        {
+            RegisterViewModel registerVm = new RegisterViewModel();
+            return View(registerVm);
+        }
+
+        // GET: Account
         public ActionResult Login()
         {
             return View();
+        }
+
+        [HttpGet]
+        public ActionResult RegisterGet()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [CaptchaValidation("CaptchaCode", "registerCaptcha", "Mã xác nhận không đúng")]
+        public async Task<ActionResult> RegisterPost(RegisterViewModel registerVm)
+        {
+            if (ModelState.IsValid)
+            {
+                var userByEmail = await _userManager.FindByEmailAsync(registerVm.Email);
+                if (userByEmail != null)
+                {
+                    ModelState.AddModelError("email", "Email này đã được đăng ký!");
+                    return View("Index", registerVm);
+                }
+
+                var userByUsername = await _userManager.FindByNameAsync(registerVm.Username);
+                if (userByUsername != null)
+                {
+                    ModelState.AddModelError("username", "Tài khoản này đã tồn tại!");
+                    return View("Index", registerVm);
+                }
+
+                var user = new ApplicationUser()
+                {
+                    Fullname = registerVm.Fullname,
+                    BirthDay = registerVm.Birthday,
+                    Email = registerVm.Email,
+                    EmailConfirmed = true,
+                    Address = registerVm.Address,
+                    PhoneNumber = registerVm.PhoneNumber,
+                    UserName = registerVm.Username
+                };
+
+                await _userManager.CreateAsync(user, registerVm.Password);
+
+                var clientUser = await _userManager.FindByEmailAsync(registerVm.Email);
+                if (clientUser != null)
+                {
+                    await _userManager.AddToRolesAsync(clientUser.Id, new string[] { "User" });
+                }
+
+                ViewData["SuccessMsg"] = "Đăng ký tài khoản thành công!";
+
+                // send response mail
+                string mailContent = System.IO.File.ReadAllText(Server.MapPath("/Assets/client/template/newUser.html"));
+                mailContent = mailContent.Replace("{{Link}}", ConfigHelper.GetByKey("CurrentLink")+"dang-nhap.html");
+                mailContent = mailContent.Replace("{{Username}}", clientUser.UserName);
+
+                var toEmail = clientUser.Email;
+                string mailSubject = "Đăng ký tài khoản thành công";
+                MailHelper.SendMail(toEmail, mailSubject, mailContent);
+            }
+
+            return View("Index", registerVm);
         }
     }
 }

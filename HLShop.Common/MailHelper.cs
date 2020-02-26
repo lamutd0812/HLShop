@@ -1,4 +1,5 @@
-﻿using System.Net.Mail;
+﻿using System;
+using System.Net.Mail;
 
 namespace HLShop.Common
 {
@@ -39,8 +40,9 @@ namespace HLShop.Common
 
                 return true;
             }
-            catch (SmtpException smex)
+            catch (SmtpException smtpException)
             {
+                Console.WriteLine(smtpException);
                 return false;
             }
         }
