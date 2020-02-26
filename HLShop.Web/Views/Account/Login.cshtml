@@ -1,0 +1,36 @@
+﻿@model HLShop.Web.Models.LoginViewModel
+
+@{
+    ViewBag.Title = "Đăng nhập";
+    Layout = "~/Views/Shared/Layouts.cshtml";
+}
+
+<h2>Login</h2><div class="account_grid">
+    <div class="login-right">
+        <h3>ĐĂNG NHẬP</h3>
+        @using (Html.BeginForm("LoginPost", "Account",new {returnUrl = ViewBag.ReturnUrl}, FormMethod.Post))
+        {
+            @Html.ValidationSummary(false, "", new { @class = "error" });
+            <div>
+                <span>Tài khoản<label>*</label></span>
+                @Html.TextBoxFor(model => model.Username)
+            </div>
+            <div>
+                <span>Mật khẩu<label>*</label></span>
+                @Html.PasswordFor(model => model.Password)
+            </div>
+            <div>
+                @Html.CheckBoxFor(model => model.RememberMe)
+                Nhớ mật khẩu
+            </div>
+            <a class="forgot" href="#">Quên mật khẩu?</a>
+            <input type="submit" value="Login">
+        }
+    </div>
+    <div class="login-left">
+        <h3>BẠN CHƯA CÓ TÀI KHOẢN?</h3>
+        <p>Bằng việc tạo một tài khoản ở trên trang web của chúng tôi, bạn có thể thanh toán nhanh hơn, lưu trữ nhiều địa chỉ giao hàng, xem, theo dõi đơn hàng của bạn và hơn thế nữa.</p>
+        <a class="acount-btn" href="/dang-ky.html">Đăng ký tài khoản tại đây</a>
+    </div>
+    <div class="clearfix"> </div>
+</div>

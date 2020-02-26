@@ -23,7 +23,7 @@ namespace HLShop.Web.Controllers
             this._commonService = commonService;
         }
 
-        [OutputCache(Duration = 60, Location = OutputCacheLocation.Server)]
+        [OutputCache(Duration = 60, Location = OutputCacheLocation.Client)]
         public ActionResult Index()
         {
             IMapper _mapper = AutoMapperConfiguration.Configure();

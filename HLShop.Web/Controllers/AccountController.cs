@@ -1,4 +1,5 @@
-﻿using HLShop.Model.Models;
+﻿using System.Security.Claims;
+using HLShop.Model.Models;
 using HLShop.Web.App_Start;
 using HLShop.Web.Models;
 using Microsoft.AspNet.Identity.Owin;
@@ -7,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using BotDetect.Web.Mvc;
 using HLShop.Common;
+using Microsoft.AspNet.Identity;
+using Microsoft.Owin.Security;
 
 namespace HLShop.Web.Controllers
 {
@@ -56,9 +59,41 @@ namespace HLShop.Web.Controllers
         }
 
         // GET: Account
-        public ActionResult Login()
+        public ActionResult Login(LoginViewModel loginVm, string returnUrl)
         {
-            return View();
+            ViewBag.ReturnUrl = returnUrl;
+            return View(loginVm);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> LoginPost(LoginViewModel loginVm, string returnUrl)
+        {
+            ApplicationUser user = await _userManager.FindAsync(loginVm.Username, loginVm.Password);
+            if (user != null)
+            {
+                IAuthenticationManager authenticationManager = HttpContext.GetOwinContext().Authentication;
+                authenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+                // ClaimsIdentity: chua thong tin dang nhap, quyen`, ... (luu trong cookie)
+                ClaimsIdentity identity = _userManager.CreateIdentity(user, DefaultAuthenticationTypes.ApplicationCookie);
+                AuthenticationProperties props = new AuthenticationProperties();
+                props.IsPersistent = loginVm.RememberMe;
+                authenticationManager.SignIn(props, identity);
+                if (Url.IsLocalUrl(returnUrl))
+                {
+                    return Redirect(returnUrl);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("error","Tên đăng nhập hoặc mật khẩu không đúng!");
+            }
+
+            ViewBag.ReturnUrl = returnUrl;
+            return View("Login", loginVm);
         }
 
         [HttpGet]
@@ -119,6 +154,15 @@ namespace HLShop.Web.Controllers
             }
 
             return View("Index", registerVm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult LogOut()
+        {
+            IAuthenticationManager authenticationManager = HttpContext.GetOwinContext().Authentication;
+            authenticationManager.SignOut();
+            return RedirectToAction("Index", "Home");
         }
     }
 }

@@ -29,7 +29,13 @@
             return $("<li>")
               .append("<a>" + item.label + "</a>")
               .appendTo(ul);
-        };
+            };
+
+        $('#btnLogout').off('click').on('click',
+            function(e) {
+                e.preventDefault(); // xoa su kien cua the hien tai (<a>)
+                $('#frmLogout').submit(); 
+            });
     }
 }
 common.init();
