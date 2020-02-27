@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/Layouts.cshtml";
+}
+
+<div class="single_top">
+    <div class="single_grid">
+        <h3>Giỏ hàng</h3>
+        <table class="table">
+            <thead>
+            <tr>
+                <td><b>STT</b></td>
+                <td><b>Mã sản phẩm</b></td>
+                <td><b>Tên sản phẩm</b></td>
+                <td><b>Hình ảnh</b></td>
+                <td><b>Giá</b></td>
+                <td><b>Số lượng</b></td>
+                <td><b>Thành tiền</b></td>
+                <td><b>Xóa</b></td>
+            </tr>
+            </thead>
+            <tbody id="cartBody">
+                
+            </tbody>
+        </table>
+        <div class="pull-right">
+            Tổng tiền: <span id="lblTotalAmount"></span>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+</div>
+
+<script id="templateCart" type="x-tmpl-mustache">
+    <tr>
+        <td>{{STT}}</td>
+        <td>{{ProductId}}</td>
+        <td>{{ProductName}}</td>
+        <td><img src ="{{Image}}" class="img-cart" /></td>
+        <td>{{PriceF}}$</td>
+        <td><input type="number" data-id="{{ProductId}}" data-price="{{Price}} " value="{{Quantity}}" class="input txtQuantity" /></td>
+        <td id="amount_{{ProductId}}">{{Amount}}</td>$
+        <td><button class="btn btn-danger btnDeleteItem" data-id="{{ProductId}}"><i class="fa fa-close"></i></button></td>
+    </tr>
+</script>
+
