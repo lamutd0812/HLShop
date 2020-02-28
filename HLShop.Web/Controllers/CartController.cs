@@ -69,11 +69,11 @@ namespace HLShop.Web.Controllers
 
         public JsonResult CreateOrder(string orderViewModel)
         {
-            var order = new JavaScriptSerializer().Deserialize<OrderViewModel>(orderViewModel);
+            var orderVm = new JavaScriptSerializer().Deserialize<OrderViewModel>(orderViewModel);
             var orderNewModel = new Order();
 
-            orderNewModel.UpdateOrder(order);
-
+            // gan gia tri cho orderNewModel
+            orderNewModel.UpdateOrder(orderVm);
             if (Request.IsAuthenticated)
             {
                 orderNewModel.CustomerId = User.Identity.GetUserId();

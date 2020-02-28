@@ -8,16 +8,15 @@
 <h2>Login</h2><div class="account_grid">
     <div class="login-right">
         <h3>ĐĂNG NHẬP</h3>
-        @using (Html.BeginForm("LoginPost", "Account",new {returnUrl = ViewBag.ReturnUrl}, FormMethod.Post))
+        @using (Html.BeginForm("LoginPost", "Account", new { returnUrl = ViewBag.ReturnUrl }, FormMethod.Post))
         {
-            @Html.ValidationSummary(false, "", new { @class = "error" });
             <div>
                 <span>Tài khoản<label>*</label></span>
-                @Html.TextBoxFor(model => model.Username)
+                @Html.TextBoxFor(model => model.Username, new { @class = "error" })
             </div>
             <div>
                 <span>Mật khẩu<label>*</label></span>
-                @Html.PasswordFor(model => model.Password)
+                @Html.PasswordFor(model => model.Password, new { @class = "error" })
             </div>
             <div>
                 @Html.CheckBoxFor(model => model.RememberMe)

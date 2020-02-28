@@ -60,33 +60,31 @@
                 <div class="clearfix"> </div>
             </div>
             <div class="header-bottom-right">
-                @using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { @id = "frmLogout" }))
+            @using (Html.BeginForm("Logout", "Account", FormMethod.Post, new {@id = "frmLogout"}))
+            {
+                if (Request.IsAuthenticated)
                 {
-                    if (Request.IsAuthenticated)
-                    {
 
-                        @Html.AntiForgeryToken()
-                        <ul class="login">
-                            <li><a href="/tai-khoan.html"><span> </span>XIN CHÀO: @User.Identity.GetUserName()</a></li> |
-                            <li><a href="#" id="btnLogout">ĐĂNG XUẤT</a></li>
-                            @*//submit form = javascript (Assets/client/js/common.js)*@
-                        </ul>
-                        <div class="cart"><a href="/gio-hang.html"><span> </span>GIỎ HÀNG</a></div>
-                        <div class="clearfix"> </div>
-                    }
-                    else
-                    {
-                        <ul class="login">
-                            <li><a href="/dang-nhap.html"><span> </span>ĐĂNG NHẬP</a></li> |
-                            <li><a href="/dang-ky.html">ĐĂNG KÝ</a></li>
-                        </ul>
-                        <div class="cart"><a href="/dang-nhap.html"><span> </span>GIỎ HÀNG</a></div>
-                        <div class="clearfix"> </div>
-                    }
+                    @Html.AntiForgeryToken()
+                    <ul class="login">
+                        <li><a href="/tai-khoan.html"><span> </span>XIN CHÀO: @User.Identity.GetUserName()</a></li> |
+                        <li><a href="#" id="btnLogout">ĐĂNG XUẤT</a></li>
+                        @*//submit form = javascript (Assets/client/js/common.js)*@
+                    </ul>
+                    <div class="cart"><a href="/gio-hang.html"><span> </span>GIỎ HÀNG</a></div>
+                    <div class="clearfix"> </div>
                 }
-                @*<div class="cart"><a href="/gio-hang.html"><span> </span>GIỎ HÀNG</a></div>
-                <div class="clearfix"> </div>*@
-            </div>
+                else
+                {
+                    <ul class="login">
+                        <li><a href="/dang-nhap.html"><span> </span>ĐĂNG NHẬP</a></li> |
+                        <li><a href="/dang-ky.html">ĐĂNG KÝ</a></li>
+                    </ul>
+                    <div class="cart"><a href="/dang-nhap.html"><span> </span>GIỎ HÀNG</a></div>
+                    <div class="clearfix"> </div>
+                }
+            }
+                </div>
             <div class="clearfix"> </div>
         </div>
     </div>

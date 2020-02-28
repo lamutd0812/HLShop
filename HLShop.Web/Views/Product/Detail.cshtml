@@ -1,4 +1,5 @@
-﻿@using HLShop.Model.Models
+﻿@using Microsoft.AspNet.Identity
+@using HLShop.Model.Models
 @using HLShop.Web.Models
 @model HLShop.Web.Models.ProductViewModel
 
@@ -10,7 +11,7 @@
 @{
     var relatedProducts = (IEnumerable<ProductViewModel>)ViewBag.ListRelatedProductViewModel;
     var moreImages = (List<string>)ViewBag.MoreImages;
-    var tags = (IEnumerable<TagViewModel>) ViewBag.Tags;
+    var tags = (IEnumerable<TagViewModel>)ViewBag.Tags;
 }
 
 <!--etalage CSS-->
@@ -57,6 +58,8 @@
 
         });
     </script>
+    <!--Jquery for shoppingCart-->
+    <script src="~/Assets/client/js/controllers/shoppingCart.js"></script>
 }
 
 <div class="single_top">
@@ -86,7 +89,15 @@
             <h4>@Model.Name</h4>
             <div class="cart-b">
                 <div class="left-n ">@(Model.Price == 0 ? "Liên hệ" : Model.Price.ToString("N0"))$</div>
-                <a class="now-get get-cart-in btnAddToCart" href="#" data-id="@Model.ID" >Thêm vào giỏ hàng</a>
+                @if (Request.IsAuthenticated)
+                {
+                    @Html.AntiForgeryToken()
+                    <a class="now-get get-cart-in btnAddToCart" href="#" data-id="@Model.ID">Thêm vào giỏ hàng</a>
+                }
+                else
+                {
+                    <a class="now-get get-cart-in" href="/dang-nhap.html">Thêm vào giỏ hàng</a>
+                }
                 <div class="clearfix"></div>
             </div>
             <h6>Còn @Model.Quantity sản phẩm</h6>
