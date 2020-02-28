@@ -1,15 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using HLShop.Model.Abstract;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Web;
+using HLShop.Model.Models;
 
-namespace HLShop.Model.Models
+namespace HLShop.Web.Models
 {
-    [Table("Orders")]
-    public class Order : Auditable
+    public class OrderViewModel
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
 
         [Required]
@@ -37,14 +37,30 @@ namespace HLShop.Model.Models
 
         [MaxLength(256)]
         public string PaymentStatus { get; set; }
+        
+        //auditable
+        public DateTime? CreatedDate { get; set; }
+
+        [MaxLength(256)]
+        public string CreatedBy { get; set; }
+
+        public DateTime? UpdatedDate { get; set; }
+
+        [MaxLength(256)]
+        public string UpdatedBy { get; set; }
+
+        [MaxLength(256)]
+        public string MetaKeyword { get; set; }
+
+        [MaxLength(256)]
+        public string MetaDescription { get; set; }
+
+        public bool Status { get; set; }
+        // end of auditable
 
         [MaxLength(128)]
-        [Column(TypeName = "nvarchar")]
         public string CustomerId { get; set; }
 
-        [ForeignKey("CustomerId")]
-        public virtual ApplicationUser User { get; set; }
-
-        public virtual IEnumerable<OrderDetail> OrderDetails { get; set; }
+        public IEnumerable<OrderDetailViewModel> OrderDetails { get; set; }
     }
 }

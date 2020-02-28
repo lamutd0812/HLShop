@@ -2,6 +2,8 @@
 using HLShop.Model.Models;
 using HLShop.Web.Models;
 using System.Collections.Generic;
+using AutoMapper;
+using HLShop.Web.Mappings;
 
 namespace HLShop.Web.Infrastructure.Extensions
 {
@@ -106,5 +108,21 @@ namespace HLShop.Web.Infrastructure.Extensions
             feedback.CreatedDate = DateTime.Now;
             feedback.Status = feedbackVm.Status;    
         }
+
+        public static void UpdateOrder(this Order order, OrderViewModel orderVm)
+        {
+            order.CustomerId = orderVm.CustomerId;
+            order.CustomerName = orderVm.CustomerName;
+            order.CustomerAddress = orderVm.CustomerAddress;
+            order.CustomerMobile = orderVm.CustomerMobile;
+            order.CustomerEmail = orderVm.CustomerEmail;
+            order.CustomerMessage = orderVm.CustomerMessage;
+            order.PaymentMethod = orderVm.PaymentMethod;
+            order.PaymentStatus = orderVm.PaymentStatus;
+            order.CreatedDate = DateTime.Now;
+            order.CreatedBy = orderVm.CreatedBy;
+            order.Status = orderVm.Status;
+        }
+
     }
 }

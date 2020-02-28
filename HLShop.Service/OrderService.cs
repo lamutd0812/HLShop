@@ -8,9 +8,7 @@ namespace HLShop.Service
 {
     public interface IOrderService
     {
-        Order Create(ref Order order, List<OrderDetail> orderDetails);
-
-        void UpdateStatus(int orderId);
+        bool Create(Order order, List<OrderDetail> orderDetails);
 
         void Save();
     }
@@ -28,7 +26,7 @@ namespace HLShop.Service
             this._unitOfWork = unitOfWork;
         }
 
-        public Order Create(ref Order order, List<OrderDetail> orderDetails)
+        public bool Create(Order order, List<OrderDetail> orderDetails)
         {
             try
             {
@@ -40,21 +38,14 @@ namespace HLShop.Service
                     orderDetail.OrderID = order.ID;
                     _orderDetailRepository.Add(orderDetail);
                 }
-
-                return order;
+                _unitOfWork.Commit();
+                return true;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
                 throw;
             }
-        }
-
-        public void UpdateStatus(int orderId)
-        {
-            var order = _orderRepository.GetSingleById(orderId);
-            order.Status = true;
-            _orderRepository.Update(order);
         }
 
         public void Save()

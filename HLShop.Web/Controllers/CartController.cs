@@ -1,24 +1,32 @@
-﻿using HLShop.Common;
+﻿using AutoMapper;
+using HLShop.Common;
+using HLShop.Service;
+using HLShop.Web.App_Start;
+using HLShop.Web.Mappings;
 using HLShop.Web.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
-using AutoMapper;
 using HLShop.Model.Models;
-using HLShop.Service;
-using HLShop.Web.Mappings;
+using HLShop.Web.Infrastructure.Extensions;
+using Microsoft.AspNet.Identity;
 
 namespace HLShop.Web.Controllers
 {
     public class CartController : Controller
     {
         private IProductService _productService;
+        private IOrderService _orderService;
+        private ApplicationUserManager _userManager;
         private IMapper _mapper;
-        public CartController(IProductService productService)
+
+        public CartController(IProductService productService, IOrderService orderService, ApplicationUserManager userManager)
         {
             this._productService = productService;
+            this._orderService = orderService;
             this._mapper = AutoMapperConfiguration.Configure();
+            this._userManager = userManager;
         }
 
         // GET: Cart
@@ -29,6 +37,65 @@ namespace HLShop.Web.Controllers
                 Session[CommonConstants.SessionCart] = new List<CartViewModel>();
             }
             return View();
+        }
+
+        public ActionResult Checkout()
+        {
+            if (Session[CommonConstants.SessionCart] == null)
+            {
+                return Redirect("/gio-hang.html");
+            }
+            return View();
+        }
+
+        public JsonResult GetUser()
+        {
+            if (Request.IsAuthenticated)
+            {
+                var userId = User.Identity.GetUserId();
+                var user = _userManager.FindById(userId);
+
+                return Json(new
+                {
+                    data = user,
+                    status = true
+                });
+            }
+            return Json(new
+            {
+                status = false
+            });
+        }
+
+        public JsonResult CreateOrder(string orderViewModel)
+        {
+            var order = new JavaScriptSerializer().Deserialize<OrderViewModel>(orderViewModel);
+            var orderNewModel = new Order();
+
+            orderNewModel.UpdateOrder(order);
+
+            if (Request.IsAuthenticated)
+            {
+                orderNewModel.CustomerId = User.Identity.GetUserId();
+                orderNewModel.CreatedBy = User.Identity.GetUserName();
+            }
+
+            var cart = (List<CartViewModel>)Session[CommonConstants.SessionCart];   
+            List<OrderDetail> orderDetails = new List<OrderDetail>();
+            foreach (var item in cart)
+            {
+                var detail = new OrderDetail();
+                detail.ProductID = item.ProductId;
+                detail.Quantity = item.Quantity;
+                orderDetails.Add(detail);
+            }
+
+            _orderService.Create(orderNewModel, orderDetails);
+
+            return Json(new
+            {
+                status = true
+            });
         }
 
         public JsonResult GetAll()
@@ -43,7 +110,7 @@ namespace HLShop.Web.Controllers
                 data = cart,
                 status = true
             }, JsonRequestBehavior.AllowGet);
-        } 
+        }
 
         [HttpPost]
         public JsonResult Add(int productId)
@@ -85,32 +152,15 @@ namespace HLShop.Web.Controllers
         public JsonResult UpdateQuantity(int productId, int quantity)
         {
             var cart = (List<CartViewModel>)Session[CommonConstants.SessionCart];
-            if (cart == null)
+            foreach (var item in cart)
             {
-                cart = new List<CartViewModel>();
-            }
-            if (cart.Any(x => x.ProductId == productId))
-            {
-                foreach (var item in cart)
+                if (item.ProductId == productId)
                 {
-                    if (item.ProductId == productId)
-                    {
-                        item.Quantity = quantity;
-                    }
+                    item.Quantity = quantity;
                 }
             }
-            else
-            {
-                CartViewModel newItem = new CartViewModel();
-                newItem.ProductId = productId;
-                var product = _productService.GetById(productId);
-                var productVm = _mapper.Map<ProductViewModel>(product);
-                newItem.Product = productVm;
-                newItem.Quantity = 1;
-                cart.Add(newItem);
-            }
-
             Session[CommonConstants.SessionCart] = cart;
+
             return Json(new
             {
                 status = true
@@ -136,31 +186,9 @@ namespace HLShop.Web.Controllers
             });
         }
 
-        [HttpPost]
-        public JsonResult Update(string cartData)
-        {
-            var cartVm = new JavaScriptSerializer().Deserialize<List<CartViewModel>>(cartData);
-            var cartSession = (List<CartViewModel>)Session[CommonConstants.SessionCart];
-            foreach (var item in cartSession)
-            {
-                foreach (var jitem in cartVm)
-                {
-                    if (item.ProductId == jitem.ProductId)
-                    {
-                        item.Quantity = jitem.Quantity;
-                    }
-                }
-            }
-
-            Session[CommonConstants.SessionCart] = cartSession;
-            return Json(new
-            {
-                status = true
-            });
-        }
 
         [HttpPost]
-        public JsonResult DeleteAll()
+        public JsonResult DeleteAllItem()
         {
             Session[CommonConstants.SessionCart] = new List<CartViewModel>();
             return Json(new

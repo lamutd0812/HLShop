@@ -47,6 +47,15 @@ namespace HLShop.Web
                 namespaces: new string[] { "HLShop.Web.Controllers" }
             );
 
+            // checkout
+            routes.MapRoute(
+                name: "Checkout",
+                url: "thanh-toan.html",
+                defaults: new { controller = "Cart", action = "Checkout", id = UrlParameter.Optional },
+                namespaces: new string[] { "HLShop.Web.Controllers" }
+            );
+
+            // product category
             routes.MapRoute(
                 name: "Product Category",
                 url: "{alias}.pc-{id}.html",
@@ -54,6 +63,7 @@ namespace HLShop.Web
                 namespaces: new string[] { "HLShop.Web.Controllers" }
             );
 
+            // all product
             routes.MapRoute(
                 name: "All Product",
                 url: "san-pham.html",
@@ -61,6 +71,7 @@ namespace HLShop.Web
                 namespaces: new string[] { "HLShop.Web.Controllers" }
             );
 
+            // product detail 
             routes.MapRoute(
                 name: "Product",
                 url: "{alias}.p-{productId}.html",
@@ -68,6 +79,7 @@ namespace HLShop.Web
                 namespaces: new string[] { "HLShop.Web.Controllers" }
             );
 
+            // search
             routes.MapRoute(
                 name: "Search",
                 url: "tim-kiem.html",
@@ -75,6 +87,7 @@ namespace HLShop.Web
                 namespaces: new string[] { "HLShop.Web.Controllers" }
             );
 
+            //taglist
             routes.MapRoute(
                 name: "TagList",
                 url: "tag/{tagId}.html",
@@ -98,6 +111,7 @@ namespace HLShop.Web
                 namespaces: new string[] { "HLShop.Web.Controllers" }
             );
 
+            // default
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
