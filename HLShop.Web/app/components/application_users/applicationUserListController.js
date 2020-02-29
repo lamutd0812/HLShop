@@ -68,4 +68,4 @@
 
         $scope.search();
     }
-})(angular.module('tedushop.application_users'));
+})(angular.module('hlshop.application_users'));

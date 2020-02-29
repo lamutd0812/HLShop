@@ -47,4 +47,4 @@
         loadGroups();
         loadDetail();
     }
-})(angular.module('tedushop.application_users'));
+})(angular.module('hlshop.application_users'));

@@ -1,7 +1,7 @@
-﻿/// <reference path="/Assets/admin/libs/angular/angular.js" />
+﻿/// <reference path="../../../assets/admin/libs/angular/angular.js" />
 
 (function () {
-    angular.module('tedushop.application_groups', ['tedushop.common']).config(config);
+    angular.module('hlshop.application_groups', ['hlshop.common']).config(config);
 
     config.$inject = ['$stateProvider', '$urlRouterProvider'];
 
@@ -23,7 +23,7 @@
                 url: "/edit_application_group/:id",
                 templateUrl: "/app/components/application_groups/applicationGroupEditView.html",
                 controller: "applicationGroupEditController",
-                parent: 'base',
+                parent: 'base'
             });
     }
 })();

@@ -114,4 +114,4 @@
 
         $scope.search();
     }
-})(angular.module('tedushop.application_groups'));
+})(angular.module('hlshop.application_groups'));

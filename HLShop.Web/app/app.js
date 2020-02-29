@@ -5,7 +5,10 @@
     angular.module('hlshop',
         ['hlshop.products',
             'hlshop.product_categories',
-            'hlshop.common'])
+            'hlshop.common',
+            'hlshop.application_groups',
+            'hlshop.application_roles',
+            'hlshop.application_users'])
         .config(config)
         .config(configAuthentication);
 

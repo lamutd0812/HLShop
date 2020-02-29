@@ -39,4 +39,4 @@
 
         loadRoles();
     }
-})(angular.module('tedushop.application_roles'));
+})(angular.module('hlshop.application_roles'));
