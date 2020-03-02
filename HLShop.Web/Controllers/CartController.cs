@@ -87,6 +87,10 @@ namespace HLShop.Web.Controllers
                 var detail = new OrderDetail();
                 detail.ProductID = item.ProductId;
                 detail.Quantity = item.Quantity;
+                var product = _productService.GetById(item.ProductId);
+                detail.ProductName = product.Name;
+                detail.ProductImage = product.Image;
+                detail.ProductPrice = product.Price;
                 orderDetails.Add(detail);
             }
 

@@ -5,8 +5,8 @@
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
-        <li><a href="#">Sản phẩm</a></li>
-        <li class="active">Danh sách sản phẩm</li>
+        <li><a href="#">Đơn hàng</a></li>
+        <li class="active">Danh sách đơn hàng</li>
     </ol>
 </section>
 
@@ -16,7 +16,7 @@
     <!-- Default box -->
     <div class="box">
         <div class="box-header with-border">
-            <h3 class="box-title">Sản phẩm</h3>
+            <h3 class="box-title">Đơn hàng</h3>
             <div class="box-tools pull-right">
                 <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
                 <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
@@ -26,17 +26,17 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="input-group">
-                        <input type="text" class="form-control" ng-model="keyword" placeholder="Từ khóa">
+                        <input type="text" class="form-control" ng-model="keyword" placeholder="Tên khách hàng">
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button" ng-click="search()">Tìm kiếm</button>
                         </span>
                     </div> <!--/input-group-->
                 </div>
 
-                <div class="col-md-6">
+                <!--<div class="col-md-6">
                     <button class="btn btn-success" ui-sref="product_add"> Thêm mới</button>
                     <button class="btn btn-danger" ng-click="deleteMultiple()" id="btnDelete" disabled> Xóa </button>
-                </div>
+                </div>-->
             </div>
 
             <div class="row">
@@ -46,33 +46,39 @@
                             <table class="table table-bordered">
                                 <tr>
                                     <td><label><input name="all" type="checkbox" ng-click="selectAll()" /></label></td>
-                                    <th style="width: 5%">ID</th>
-                                    <th style="width: 35%"> Tên sản phẩm</th>
-                                    <th style="width: 20%">Hình ảnh</th>
-                                    <th style="width: 20%">Ngày tạo</th>
+                                    <th style="width: 5%">Mã đơn hàng</th>
+                                    <th style="width: 25%"> Tên khách hàng</th>
+                                    <th style="width: 20%">Địa chỉ</th>
+                                    <th style="width: 10%">SĐT</th>
+                                    <th style="width: 10%">Email</th>
                                     <th style="width: 10%">Trạng thái</th>
+                                    <th style="width: 10%">Chi tiết</th>
                                     <th style="width: 10%">Thao tác</th>
                                 </tr>
-                                <tr ng-repeat="item in products">
+                                <tr ng-repeat="item in orders">
                                     <td><input type="checkbox" ng-model="item.checked" name="all" /></td>
                                     <td>{{item.ID}}</td>
-                                    <td>{{item.Name}}</td>
-                                    <td><img src="{{item.Image}}" style="width: 100px; height: 100px"/></td>
-                                    <td>{{item.CreatedDate | date: 'dd/MM/yyyy hh:mm:ss'}}</td>
+                                    <td>{{item.CustomerName}}</td>
+                                    <td>{{item.CustomerAddress}}</td>
+                                    <td>{{item.CustomerMobile}}</td>
+                                    <td>{{item.CustomerEmail}}</td>
                                     <!--class="badge bg-red"-->
                                     <td>
                                         <span ng-class="{'badge bg-red':item.Status==false,'badge bg-green':item.Status==true}">
-                                            {{item.Status | statusFilter}}
+                                            {{item.Status | orderFilter}}
                                         </span>
                                     </td>
                                     <td>
+                                        <a ui-sref="order_details({id:item.ID})"> Xem chi tiết </a>
+                                    </td>
+                                    <!--<td>
                                         <button ui-sref="product_edit({id:item.ID})" class="btn btn-sm btn-primary">
                                             <i class="fa fa-pencil"></i>
                                         </button>
                                         <button class="btn btn-sm btn-danger" ng-click="deleteProduct(item.ID)">
                                             <i class="fa fa-trash"></i>
                                         </button>
-                                    </td>
+                                    </td>-->
                                 </tr>
                                 <tfoot>
                                     <tr>
@@ -88,7 +94,7 @@
             </div>
         </div><!-- /.box-body -->
         <div class="box-footer">
-            <pager-directive page="{{page}}" custom-path="{{customPath}}" pages-count="{{pagesCount}}" total-count="{{totalCount}}" search-func="getProducts(page)"></pager-directive>
+            <pager-directive page="{{page}}" custom-path="{{customPath}}" pages-count="{{pagesCount}}" total-count="{{totalCount}}" search-func="getOrders(page)"></pager-directive>
         </div><!-- /.box-footer-->
     </div><!-- /.box -->
 </section><!-- /.content -->

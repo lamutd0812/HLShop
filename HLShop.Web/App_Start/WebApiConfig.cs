@@ -1,5 +1,6 @@
 ﻿using Microsoft.Owin.Security.OAuth;
 using System.Web.Http;
+using Newtonsoft.Json;
 
 namespace HLShop.Web
 {
@@ -23,6 +24,7 @@ namespace HLShop.Web
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+            config.Formatters.JsonFormatter.SerializerSettings = new JsonSerializerSettings();
         }
     }
 }

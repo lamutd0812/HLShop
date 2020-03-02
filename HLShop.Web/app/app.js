@@ -6,6 +6,7 @@
         ['hlshop.products',
             'hlshop.product_categories',
             'hlshop.common',
+            'hlshop.orders',
             'hlshop.application_groups',
             'hlshop.application_roles',
             'hlshop.application_users'])

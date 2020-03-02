@@ -16,7 +16,6 @@ using HLShop.Web.Models;
 namespace HLShop.Web.Api
 {
     [System.Web.Http.RoutePrefix("api/product")]
-    [Authorize]
     public class ProductController : ApiControllerBase
     {
         #region Initialize

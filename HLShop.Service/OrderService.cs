@@ -10,6 +10,8 @@ namespace HLShop.Service
     {
         bool Create(Order order, List<OrderDetail> orderDetails);
 
+        IEnumerable<Order> GetAll(string keyword);
+
         void Save();
     }
 
@@ -45,6 +47,19 @@ namespace HLShop.Service
             {
                 Console.WriteLine(e);
                 throw;
+            }
+        }
+
+        public IEnumerable<Order> GetAll(string keyword)
+        {
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                return _orderRepository.GetMulti(x =>
+                    x.CustomerName.Contains(keyword));
+            }
+            else
+            {
+                return _orderRepository.GetAll();
             }
         }
 

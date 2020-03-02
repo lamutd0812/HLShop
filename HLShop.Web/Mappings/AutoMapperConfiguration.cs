@@ -20,6 +20,8 @@ namespace HLShop.Web.Mappings
                 cfg.CreateMap<Slide, SlideViewModel>();
                 cfg.CreateMap<Page, PageViewModel>();
                 cfg.CreateMap<ContactDetail, ContactDetailViewModel>();
+                cfg.CreateMap<Order, OrderViewModel>();
+                cfg.CreateMap<OrderDetail, OrderDetailViewModel>();
 
                 cfg.CreateMap<ApplicationGroup, ApplicationGroupViewModel>();
                 cfg.CreateMap<ApplicationRole, ApplicationRoleViewModel>();
