@@ -3,7 +3,10 @@
 
 @{
     var tag = (TagViewModel)ViewBag.Tag;
-    ViewBag.Title = "Danh sách sản phẩm với Tag: " + tag.Name;
+    var pageIndex = @Model.Page;
+    ViewBag.Title = pageIndex == 1 ? "Danh sách sản phẩm với Tag: " + tag.Name : "Danh sách sản phẩm với Tag: " + tag.Name + " - Trang " + pageIndex;
+    ViewBag.MetaKeyword = pageIndex == 1 ? "Danh sách sản phẩm với Tag: " + tag.Name : "Danh sách sản phẩm với Tag: " + tag.Name + " - Trang " + pageIndex;
+    ViewBag.MetaDescription = pageIndex == 1 ? "Danh sách sản phẩm với Tag: " + tag.Name : "Danh sách sản phẩm với Tag: " + tag.Name + " - Trang " + pageIndex;
     Layout = "~/Views/Shared/Layouts.cshtml";
 }
 
