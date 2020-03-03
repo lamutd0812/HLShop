@@ -8,7 +8,7 @@ namespace HLShop.Data
     {
         public HLShopDbContext() : base("HLShopConnection")
         {
-            this.Configuration.LazyLoadingEnabled = false;
+            this.Configuration.LazyLoadingEnabled = false; // load ra cac bang reference voi bang (vd: MenuGroups -> Load ra Menus)
         }
 
         public DbSet<Footer> Footers { get; set; }
