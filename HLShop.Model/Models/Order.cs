@@ -38,6 +38,13 @@ namespace HLShop.Model.Models
         [MaxLength(256)]
         public string PaymentStatus { get; set; }
 
+        [MaxLength(128)]
+        [Column(TypeName = "nvarchar")]
+        public string CustomerId { get; set; }
+
+        [ForeignKey("CustomerId")]
+        public virtual ApplicationUser User { get; set; }
+
         public virtual IEnumerable<OrderDetail> OrderDetails { get; set; }
     }
 }

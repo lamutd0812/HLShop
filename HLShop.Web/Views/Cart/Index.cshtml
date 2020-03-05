@@ -1,0 +1,76 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/Layouts.cshtml";
+}
+
+@section footerJS{
+    <!--Jquery for shoppingCart-->
+    <script src="~/Assets/client/js/controllers/shoppingCart.js"></script>
+}
+
+<div class="single_top">
+    <div class="single_grid">
+        <h3>GIỎ HÀNG</h3>
+        <div id="cartContent">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td><b>STT</b></td>
+                        <td><b>Mã sản phẩm</b></td>
+                        <td><b>Tên sản phẩm</b></td>
+                        <td><b>Hình ảnh</b></td>
+                        <td><b>Giá</b></td>
+                        <td><b>Số lượng</b></td>
+                        <td><b>Thành tiền</b></td>
+                        <td><b>Xóa</b></td>
+                    </tr>
+                </thead>
+                <tbody id="cartBody">
+                </tbody>
+            </table>
+            <button class="btn btn-success" id="btnContinueShopping">Tiếp tục mua hàng</button>
+            <button class="btn btn-danger" id="btnDeleteAllItem">Xóa giỏ hàng</button>
+            <button class="btn btn" id="btnCheckout">Thanh toán</button>
+            <div class="pull-right">
+                <b>Tổng tiền:</b> <span id="lblTotalAmount"></span>
+            </div>
+        </div>
+        <div class="clearfix"> </div>
+        <div id="divCheckout" style="display: none;">
+            <div class="reservation_top">
+                <div class="contact_right">
+                    <h3>Thanh toán</h3>
+                    <div class="contact-form">
+                        <label>
+                            <input type="checkbox" id="checkUserLoginInfor" /> Sử dụng thông tin đăng nhập
+                        </label>
+                        <form method="post" id="frmPayment">
+                            <input type="text" class="textbox" id="txtName" name="name" placeholder="Họ tên">
+                            <input type="text" class="textbox" id="txtAddress" name="address" placeholder="Địa chỉ">
+                            <input type="text" class="textbox" id="txtPhone" name="phone" placeholder="SĐT">
+                            <input type="text" class="textbox" id="txtEmail" name="email" placeholder="Email">
+                            <textarea value="Message" id="txtMessage" placeholder="Lời nhắn"></textarea>
+                            <input type="button" class="btn btn" id="btnCreateOrder" value="Thanh toán">
+                            <div class="clearfix"> </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+</div>
+
+<script id="cartTemplate" type="x-tmpl-mustache">
+    <tr>
+        <td>{{STT}}</td>
+        <td>{{ProductId}}</td>
+        <td>{{ProductName}}</td>
+        <td><img src="{{Image}}" class="img-cart" /></td>
+        <td>{{PriceF}}$</td>
+        <td><input type="number" min="1" data-id="{{ProductId}}" data-price="{{Price}} " value="{{Quantity}}" class="input txtQuantity" /></td>
+        <td id="amount_{{ProductId}}">{{Amount}}</td>$
+        <td><button class="btn btn-danger btnDeleteItem" data-id="{{ProductId}}"><i class="fa fa-close"></i></button></td>
+    </tr>
+</script>
+

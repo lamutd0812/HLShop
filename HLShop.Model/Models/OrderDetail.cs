@@ -20,6 +20,16 @@ namespace HLShop.Model.Models
         public int ProductID { get; set; }
 
         [Required]
+        [MaxLength(256)]
+        public string ProductName { get; set; }
+
+        [MaxLength(256)]
+        public string ProductImage { get; set; }
+
+        [Required]
+        public decimal ProductPrice { get; set; }
+
+        [Required]
         public int Quantity { get; set; }
 
         [ForeignKey("OrderID")]

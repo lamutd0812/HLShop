@@ -8,9 +8,9 @@ namespace HLShop.Service
 {
     public interface IOrderService
     {
-        Order Create(ref Order order, List<OrderDetail> orderDetails);
+        bool Create(Order order, List<OrderDetail> orderDetails);
 
-        void UpdateStatus(int orderId);
+        IEnumerable<Order> GetAll(string keyword);
 
         void Save();
     }
@@ -28,7 +28,7 @@ namespace HLShop.Service
             this._unitOfWork = unitOfWork;
         }
 
-        public Order Create(ref Order order, List<OrderDetail> orderDetails)
+        public bool Create(Order order, List<OrderDetail> orderDetails)
         {
             try
             {
@@ -40,8 +40,8 @@ namespace HLShop.Service
                     orderDetail.OrderID = order.ID;
                     _orderDetailRepository.Add(orderDetail);
                 }
-
-                return order;
+                _unitOfWork.Commit();
+                return true;
             }
             catch (Exception e)
             {
@@ -50,11 +50,17 @@ namespace HLShop.Service
             }
         }
 
-        public void UpdateStatus(int orderId)
+        public IEnumerable<Order> GetAll(string keyword)
         {
-            var order = _orderRepository.GetSingleById(orderId);
-            order.Status = true;
-            _orderRepository.Update(order);
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                return _orderRepository.GetMulti(x =>
+                    x.CustomerName.Contains(keyword));
+            }
+            else
+            {
+                return _orderRepository.GetAll();
+            }
         }
 
         public void Save()

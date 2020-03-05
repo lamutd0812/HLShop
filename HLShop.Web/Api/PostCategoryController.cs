@@ -10,9 +10,10 @@ using HLShop.Web.Models;
 using HLShop.Web.Infrastructure.Extensions;
 using HLShop.Web.Mappings;
 
-namespace HLShop.Web
+namespace HLShop.Web.Api
 {
     [RoutePrefix("api/postcategory")]
+    [Authorize]
     public class PostCategoryController : ApiControllerBase
     {
 

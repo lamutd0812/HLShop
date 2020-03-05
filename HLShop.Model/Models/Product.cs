@@ -48,5 +48,8 @@ namespace HLShop.Model.Models
         public virtual IEnumerable<OrderDetail> OrderDetails { get; set; }
 
         public virtual IEnumerable<ProductTag> ProductTags { get; set; }
+
+        public string Tags { get; set; }
+        public int Quantity { get; set; }
     }
 }

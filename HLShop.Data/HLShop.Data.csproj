@@ -81,9 +81,47 @@
     <Compile Include="Migrations\202002081533060_changekey.designer.cs">
       <DependentUpon>202002081533060_changekey.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202002171315502_AddTagsFieldForProduct.cs" />
+    <Compile Include="Migrations\202002171315502_AddTagsFieldForProduct.designer.cs">
+      <DependentUpon>202002171315502_AddTagsFieldForProduct.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002230200314_addQuantityForProductModel.cs" />
+    <Compile Include="Migrations\202002230200314_addQuantityForProductModel.designer.cs">
+      <DependentUpon>202002230200314_addQuantityForProductModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002240926495_addContactDetailsTable.cs" />
+    <Compile Include="Migrations\202002240926495_addContactDetailsTable.designer.cs">
+      <DependentUpon>202002240926495_addContactDetailsTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002250157109_Feedback.cs" />
+    <Compile Include="Migrations\202002250157109_Feedback.designer.cs">
+      <DependentUpon>202002250157109_Feedback.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002280212198_addCustomerIdForOrder.cs" />
+    <Compile Include="Migrations\202002280212198_addCustomerIdForOrder.designer.cs">
+      <DependentUpon>202002280212198_addCustomerIdForOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002290152454_renameIdentityTables.cs" />
+    <Compile Include="Migrations\202002290152454_renameIdentityTables.designer.cs">
+      <DependentUpon>202002290152454_renameIdentityTables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002290214276_AddGroupUserTables.cs" />
+    <Compile Include="Migrations\202002290214276_AddGroupUserTables.designer.cs">
+      <DependentUpon>202002290214276_AddGroupUserTables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003020921094_er=ditOrderDetailTable.cs" />
+    <Compile Include="Migrations\202003020921094_er=ditOrderDetailTable.designer.cs">
+      <DependentUpon>202003020921094_er=ditOrderDetailTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\ApplicationGroupRepository.cs" />
+    <Compile Include="Repositories\ApplicationRoleGroupRepository.cs" />
+    <Compile Include="Repositories\ApplicationRoleRepository.cs" />
+    <Compile Include="Repositories\ApplicationUserGroupRepository.cs" />
+    <Compile Include="Repositories\ContactDetailRepository.cs" />
     <Compile Include="Repositories\ErrorRepository.cs" />
+    <Compile Include="Repositories\FeedbackRepository.cs" />
     <Compile Include="Repositories\FooterRepository.cs" />
     <Compile Include="Repositories\MenuGroupRepository.cs" />
     <Compile Include="Repositories\MenuRepository.cs" />
@@ -128,6 +166,30 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202002081533060_changekey.resx">
       <DependentUpon>202002081533060_changekey.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002171315502_AddTagsFieldForProduct.resx">
+      <DependentUpon>202002171315502_AddTagsFieldForProduct.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002230200314_addQuantityForProductModel.resx">
+      <DependentUpon>202002230200314_addQuantityForProductModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002240926495_addContactDetailsTable.resx">
+      <DependentUpon>202002240926495_addContactDetailsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002250157109_Feedback.resx">
+      <DependentUpon>202002250157109_Feedback.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002280212198_addCustomerIdForOrder.resx">
+      <DependentUpon>202002280212198_addCustomerIdForOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002290152454_renameIdentityTables.resx">
+      <DependentUpon>202002290152454_renameIdentityTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002290214276_AddGroupUserTables.resx">
+      <DependentUpon>202002290214276_AddGroupUserTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003020921094_er=ditOrderDetailTable.resx">
+      <DependentUpon>202003020921094_er=ditOrderDetailTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
