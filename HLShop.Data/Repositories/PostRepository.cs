@@ -2,7 +2,6 @@
 using HLShop.Model.Models;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 
 namespace HLShop.Data.Repositories
 {
@@ -21,18 +20,17 @@ namespace HLShop.Data.Repositories
         {
             var query = from p in DbContext.Posts
                         join pt in DbContext.PostTags
-                            on p.ID equals pt.PostID 
+                            on p.ID equals pt.PostID
                         where pt.TagID == tag && p.Status
-                        orderby p.CreatedDate descending 
+                        orderby p.CreatedDate descending
                         select p; // lay cac post theo tag truyen vao
 
             totalRow = query.Count(); // tra ve so luong ban ghi
 
-            query = query.Skip((pageIndex - 1) * pageSize).Take(pageSize);
+            query = query.OrderByDescending(x => x.CreatedDate).Skip((pageIndex - 1) * pageSize).Take(pageSize);
             // phan trang: lay tu vi tri (pageIndex-1)*pageSize toi vi tri pageSize
 
             return query;
-
         }
     }
 }

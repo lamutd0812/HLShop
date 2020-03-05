@@ -15,14 +15,9 @@ namespace HLShop.Data.Infrastructure
         private HLShopDbContext dataContext;
         private readonly IDbSet<T> dbSet;
 
-        protected IDbFactory DbFactory
-        {
-            get;
-            private set;
-        }
+        protected IDbFactory DbFactory { get; private set; }
 
-        protected HLShopDbContext DbContext
-        {
+        protected HLShopDbContext DbContext { 
             get { return dataContext ?? (dataContext = DbFactory.Init()); }
         }
 

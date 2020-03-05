@@ -62,9 +62,9 @@ namespace HLShop.Web.App_Start
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "1724156397871880",
-            //   appSecret: "398039cc7588d52f87a7adcefecc3210");
+            app.UseFacebookAuthentication(
+               appId: "485275062157108",
+               appSecret: "06842da52ce94f337f47c68886a9fa93");
 
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{
