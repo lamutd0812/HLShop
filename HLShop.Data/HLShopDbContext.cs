@@ -35,7 +35,7 @@ namespace HLShop.Data
         public DbSet<ApplicationRole> ApplicationRoles{ get; set; }
         public DbSet<ApplicationRoleGroup> ApplicationRoleGroups { get; set; }
         public DbSet<ApplicationUserGroup> ApplicationUserGroups { get; set; }
-
+        public DbSet<Cart> Carts { get; set; }
         public static HLShopDbContext Create()
         {   
             return new HLShopDbContext();

@@ -78,15 +78,7 @@
                                 <label for="rating-input-1-1" class="rating-star"> </label>
                             </span>
                         </div>
-                        @if (Request.IsAuthenticated)
-                        {
-                            @Html.AntiForgeryToken()
-                            <a class="now-get get-cart-in btnAddToCart" href="#" data-id="@product.ID">Thêm vào giỏ hàng</a>
-                        }
-                        else
-                        {
-                            <a class="now-get get-cart-in" href="/dang-nhap.html">Thêm vào giỏ hàng</a>
-                        }
+                        <a class="now-get get-cart-in btnAddToCart" href="#" data-id="@product.ID">Thêm vào giỏ hàng</a>
                         <div class="clearfix"> </div>
                     </div>
                 </div>
@@ -127,15 +119,7 @@
                                 <label for="rating-input-1-1" class="rating-star"> </label>
                             </span>
                         </div>
-                        @if (Request.IsAuthenticated)
-                        {
-                            @Html.AntiForgeryToken()
-                            <a class="now-get get-cart-in btnAddToCart" href="#" data-id="@product.ID>Thêm vào giỏ hàng</a>
-                            }
-                            else
-                            {
-                            <a class="now-get get-cart-in" href="/dang-nhap.html">Thêm vào giỏ hàng</a>
-                        }
+                        <a class="now-get get-cart-in btnAddToCart" href="#" data-id="@product.ID">Thêm vào giỏ hàng</a>
                         <div class="clearfix"> </div>
                     </div>
                 </div>

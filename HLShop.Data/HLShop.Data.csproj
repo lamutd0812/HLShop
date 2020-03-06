@@ -113,12 +113,17 @@
     <Compile Include="Migrations\202003020921094_er=ditOrderDetailTable.designer.cs">
       <DependentUpon>202003020921094_er=ditOrderDetailTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202003051334053_addCartTable.cs" />
+    <Compile Include="Migrations\202003051334053_addCartTable.designer.cs">
+      <DependentUpon>202003051334053_addCartTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ApplicationGroupRepository.cs" />
     <Compile Include="Repositories\ApplicationRoleGroupRepository.cs" />
     <Compile Include="Repositories\ApplicationRoleRepository.cs" />
     <Compile Include="Repositories\ApplicationUserGroupRepository.cs" />
+    <Compile Include="Repositories\CartRepository.cs" />
     <Compile Include="Repositories\ContactDetailRepository.cs" />
     <Compile Include="Repositories\ErrorRepository.cs" />
     <Compile Include="Repositories\FeedbackRepository.cs" />
@@ -190,6 +195,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202003020921094_er=ditOrderDetailTable.resx">
       <DependentUpon>202003020921094_er=ditOrderDetailTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003051334053_addCartTable.resx">
+      <DependentUpon>202003051334053_addCartTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

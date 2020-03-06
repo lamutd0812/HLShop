@@ -109,6 +109,13 @@ namespace HLShop.Web.Infrastructure.Extensions
             feedback.Status = feedbackVm.Status;    
         }
 
+        public static void UpdateCart(this Cart cart, CartViewModel cartVm)
+        {
+            cart.ProductId = cartVm.ProductId;
+            cart.UserId = cartVm.UserId;
+            cart.Quantity = cartVm.Quantity;
+        }
+
         public static void UpdateOrder(this Order order, OrderViewModel orderVm)
         {
             order.CustomerId = orderVm.CustomerId;
