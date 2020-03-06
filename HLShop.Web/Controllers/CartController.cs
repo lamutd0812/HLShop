@@ -84,27 +84,47 @@ namespace HLShop.Web.Controllers
 
             // gan gia tri cho orderNewModel
             orderNewModel.UpdateOrder(orderVm);
+
             if (Request.IsAuthenticated)
             {
-                orderNewModel.CustomerId = User.Identity.GetUserId();
-                orderNewModel.CreatedBy = User.Identity.GetUserName();
-            }
+                var userId = User.Identity.GetUserId();
+                var userName = User.Identity.GetUserName();
 
-            var cart = (List<CartViewModel>)Session[CommonConstants.SessionCart];
-            List<OrderDetail> orderDetails = new List<OrderDetail>();
-            foreach (var item in cart)
+                orderNewModel.CustomerId = userId;
+                orderNewModel.CreatedBy = userName;
+
+                var cartDb = _cartService.GetCartItemByUser(userId);
+                List<OrderDetail> orderDetails = new List<OrderDetail>();
+                foreach (var item in cartDb)
+                {
+                    var detail = new OrderDetail();
+                    detail.ProductID = item.ProductId;
+                    detail.Quantity = item.Quantity;
+                    var product = _productService.GetById(item.ProductId);
+                    detail.ProductName = product.Name;
+                    detail.ProductImage = product.Image;
+                    detail.ProductPrice = product.Price;
+                    orderDetails.Add(detail);
+                }
+                _orderService.Create(orderNewModel, orderDetails);
+            }
+            else
             {
-                var detail = new OrderDetail();
-                detail.ProductID = item.ProductId;
-                detail.Quantity = item.Quantity;
-                var product = _productService.GetById(item.ProductId);
-                detail.ProductName = product.Name;
-                detail.ProductImage = product.Image;
-                detail.ProductPrice = product.Price;
-                orderDetails.Add(detail);
+                var cart = (List<CartViewModel>)Session[CommonConstants.SessionCart];
+                List<OrderDetail> orderDetails = new List<OrderDetail>();
+                foreach (var item in cart)
+                {
+                    var detail = new OrderDetail();
+                    detail.ProductID = item.ProductId;
+                    detail.Quantity = item.Quantity;
+                    var product = _productService.GetById(item.ProductId);
+                    detail.ProductName = product.Name;
+                    detail.ProductImage = product.Image;
+                    detail.ProductPrice = product.Price;
+                    orderDetails.Add(detail);
+                }
+                _orderService.Create(orderNewModel, orderDetails);
             }
-
-            _orderService.Create(orderNewModel, orderDetails);
 
             return Json(new
             {
@@ -164,21 +184,24 @@ namespace HLShop.Web.Controllers
                 }
                 else
                 {
+                    var check = false;
                     foreach (var item in cartDb)
                     {
                         if (item.ProductId == productId)
                         {
+                            check = true;
                             item.Quantity++;
                             _cartService.Update(item);
                         }
-                        else
-                        {
-                            var newCartItem = new Cart();
-                            newCartItem.UserId = userId;
-                            newCartItem.ProductId = productId;
-                            newCartItem.Quantity = 1;
-                            _cartService.Add(newCartItem);
-                        }
+                    }
+
+                    if (check == false)
+                    {
+                        var newCartItem = new Cart();
+                    newCartItem.UserId = userId;
+                    newCartItem.ProductId = productId;
+                    newCartItem.Quantity = 1;
+                    _cartService.Add(newCartItem);
                     }
                 }
             }
