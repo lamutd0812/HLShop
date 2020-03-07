@@ -38,3 +38,18 @@
     width: 100px;
     height: 100px;
 }
+
+.description {
+    font-size: 1.2em;
+    color: crimson;
+}
+
+.description{
+    font-size: 1.2em;
+    color: crimson;
+    margin-top: 10px;
+}
+
+.i {
+    font-style: italic;
+}

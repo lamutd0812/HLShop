@@ -78,7 +78,11 @@
                                 <label for="rating-input-1-1" class="rating-star"> </label>
                             </span>
                         </div>
-                        <a class="now-get get-cart-in btnAddToCart" href="#" data-id="@product.ID">Thêm vào giỏ hàng</a>
+                        <form method="post" id="frmAddToCart">
+                            Số lượng: <input type="hidden" id="txtQuantityToAdd" min="1" max="@product.Quantity" value="1" class="input txtQuantityToAdd" />
+                            <input type="button" class="now-get get-cart-in btnAddToCart" data-id="@product.ID" value="Thêm vào giỏ hàng" />
+                        </form>
+                        @*<a class="now-get get-cart-in btnAddToCart" href="#" data-id="@product.ID">Thêm vào giỏ hàng</a>*@
                         <div class="clearfix"> </div>
                     </div>
                 </div>
@@ -119,7 +123,11 @@
                                 <label for="rating-input-1-1" class="rating-star"> </label>
                             </span>
                         </div>
-                        <a class="now-get get-cart-in btnAddToCart" href="#" data-id="@product.ID">Thêm vào giỏ hàng</a>
+                        <form method="post" id="frmAddToCart">
+                            Số lượng: <input type="hidden" id="txtQuantityToAdd" min="1" max="@product.Quantity" value="1" class="input txtQuantityToAdd" />
+                            <input type="button" class="now-get get-cart-in btnAddToCart" data-id="@product.ID" value="Thêm vào giỏ hàng" />
+                        </form>
+                        @*<a class="now-get get-cart-in btnAddToCart" href="#" data-id="@product.ID">Thêm vào giỏ hàng</a>*@
                         <div class="clearfix"> </div>
                     </div>
                 </div>

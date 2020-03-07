@@ -100,7 +100,11 @@ namespace HLShop.Web.Controllers
                     var detail = new OrderDetail();
                     detail.ProductID = item.ProductId;
                     detail.Quantity = item.Quantity;
+
                     var product = _productService.GetById(item.ProductId);
+                    // giam so san pham con lai di 
+                    _productService.UpdateQuantity(product, item.Quantity);
+
                     detail.ProductName = product.Name;
                     detail.ProductImage = product.Image;
                     detail.ProductPrice = product.Price;
@@ -117,7 +121,11 @@ namespace HLShop.Web.Controllers
                     var detail = new OrderDetail();
                     detail.ProductID = item.ProductId;
                     detail.Quantity = item.Quantity;
+
                     var product = _productService.GetById(item.ProductId);
+                    // giam so san pham con lai di 
+                    _productService.UpdateQuantity(product, item.Quantity);
+
                     detail.ProductName = product.Name;
                     detail.ProductImage = product.Image;
                     detail.ProductPrice = product.Price;
@@ -167,7 +175,7 @@ namespace HLShop.Web.Controllers
         }
 
         [HttpPost]
-        public JsonResult Add(int productId)
+        public JsonResult Add(int productId, int quantity)
         {
             if (Request.IsAuthenticated)
             {
@@ -179,7 +187,7 @@ namespace HLShop.Web.Controllers
                     var newCartItem = new Cart();
                     newCartItem.UserId = userId;
                     newCartItem.ProductId = productId;
-                    newCartItem.Quantity = 1;
+                    newCartItem.Quantity = quantity;
                     _cartService.Add(newCartItem);
                 }
                 else
@@ -190,7 +198,7 @@ namespace HLShop.Web.Controllers
                         if (item.ProductId == productId)
                         {
                             check = true;
-                            item.Quantity++;
+                            item.Quantity = item.Quantity + quantity;
                             _cartService.Update(item);
                         }
                     }
@@ -198,10 +206,10 @@ namespace HLShop.Web.Controllers
                     if (check == false)
                     {
                         var newCartItem = new Cart();
-                    newCartItem.UserId = userId;
-                    newCartItem.ProductId = productId;
-                    newCartItem.Quantity = 1;
-                    _cartService.Add(newCartItem);
+                        newCartItem.UserId = userId;
+                        newCartItem.ProductId = productId;
+                        newCartItem.Quantity = quantity;
+                        _cartService.Add(newCartItem);
                     }
                 }
             }
@@ -218,7 +226,7 @@ namespace HLShop.Web.Controllers
                     {
                         if (item.ProductId == productId)
                         {
-                            item.Quantity++;
+                            item.Quantity = item.Quantity + quantity;
                         }
                     }
                 }
@@ -229,7 +237,7 @@ namespace HLShop.Web.Controllers
                     var product = _productService.GetById(productId);
                     var productVm = _mapper.Map<ProductViewModel>(product);
                     newItem.Product = productVm;
-                    newItem.Quantity = 1;
+                    newItem.Quantity = quantity;
                     cart.Add(newItem);
                 }
 

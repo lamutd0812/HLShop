@@ -90,11 +90,18 @@
         <div class="desc1 span_3_of_2">
             <h4>@Model.Name</h4>
             <div class="cart-b">
-                <div class="left-n ">@(Model.Price == 0 ? "Liên hệ" : Model.Price.ToString("N0"))$</div>
-                <a class="now-get get-cart-in btnAddToCart" href="#" data-id="@Model.ID">Thêm vào giỏ hàng</a>
+                <div class="left-n">Giá: @(Model.Price == 0 ? "Liên hệ" : Model.Price.ToString("N0"))$</div>
+                <div class="clearfix"></div>
+                <form method="post" id="frmAddToCart">
+                    <input type="hidden" id="maxQuantity" value="@Model.Quantity"/>
+                    Số lượng: <input type="number" id="txtQuantityToAdd" min="1" max="@Model.Quantity" name="quantityToAdd" value="1" class="input txtQuantityToAdd"/>
+                    <input type="button" class="now-get get-cart-in btnAddToCart" id="btnAddToCart" data-id="@Model.ID" value="Thêm vào giỏ hàng"/>
+                </form>
                 <div class="clearfix"></div>
             </div>
-            <h6>Còn @Model.Quantity sản phẩm</h6>
+            
+            <br/>
+            <div class="description i">Còn @Model.Quantity sản phẩm</div>
             <p>@Model.Description</p>
             <div class="tag">
                 <h5><b>Tags:</b></h5>
