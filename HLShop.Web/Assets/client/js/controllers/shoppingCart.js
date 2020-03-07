@@ -94,7 +94,7 @@
                     email: true
                 }
             },
-            message: {
+            messages: {
                 name: "Tên không được bỏ trống.",
                 address: "Địa chỉ không được bỏ trống.",
                 phone: {

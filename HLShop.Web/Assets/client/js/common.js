@@ -36,10 +36,10 @@
                 quantityToAdd: {
                     required: true,
                     min: 1,
-                    max: $('#maxQuantity').val()
+                    max: parseInt($('#maxQuantity').val())
                 }
             },
-            message: {
+            messages: {
                 quantityToAdd: {
                     required: "Phải nhập số lượng.",
                     min: "Số lượng ít nhất là 1",
