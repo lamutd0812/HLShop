@@ -47,6 +47,14 @@ namespace HLShop.Web
                 namespaces: new string[] { "HLShop.Web.Controllers" }
             );
 
+            //change password
+            routes.MapRoute(
+                name: "ChangePassword",
+                url: "doi-mat-khau.hmtl",
+                defaults: new { controller = "Account", action = "ChangePassword", id = UrlParameter.Optional },
+                namespaces: new string[] { "HLShop.Web.Controllers" }
+            );
+
             // cart
             routes.MapRoute(
                 name: "Cart",

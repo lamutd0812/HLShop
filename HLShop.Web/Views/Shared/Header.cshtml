@@ -66,11 +66,14 @@
                 {
 
                     @Html.AntiForgeryToken()
-                    <ul class="login">
-                        <li><a href="/tai-khoan.html"><span> </span>XIN CHÀO: @User.Identity.GetUserName()</a></li> |
-                        <li><a href="#" id="btnLogout">ĐĂNG XUẤT</a></li>
-                        @*//submit form = javascript (Assets/client/js/common.js)*@
-                    </ul>
+                <ul class="login">
+                    <li>
+                        <a href="/tai-khoan.html"><span> </span>XIN CHÀO: @User.Identity.GetUserName()</a>
+                    </li> |
+                    <li><a href="/doi-mat-khau.hmtl">ĐỔI MẬT KHẨU</a></li> |
+                    <li><a href="#" id="btnLogout">ĐĂNG XUẤT</a></li>
+                    @*//submit form = javascript (Assets/client/js/common.js)*@
+                </ul>
                     <div class="cart"><a href="/gio-hang.html"><span> </span>GIỎ HÀNG</a></div>
                     <div class="clearfix"> </div>
                 }

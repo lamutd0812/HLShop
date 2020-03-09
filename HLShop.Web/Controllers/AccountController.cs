@@ -226,11 +226,12 @@ namespace HLShop.Web.Controllers
             return View("Index", registerVm);
         }
 
+        //Recover Password
         public ActionResult RecoverPassword(RecoverViewModel recoverVm)
         {
             return View(recoverVm);
         }
-
+        //Recover Password Post
         [HttpPost]
         [CaptchaValidation("CaptchaCode", "registerCaptcha", "Mã xác nhận không đúng")]
         public async Task<ActionResult> RecoverPasswordPost(RecoverViewModel recoverVm)
@@ -261,6 +262,32 @@ namespace HLShop.Web.Controllers
                 MailHelper.SendMail(toEmail, mailSubject, mailContent);
             }
             return View("RecoverPassword", recoverVm);
+        }
+
+        //Change Password
+        public ActionResult ChangePassword(ChangePasswordViewModel changePasswordVm)
+        {
+            return View(changePasswordVm);
+        }
+        //Change Password Post
+        [HttpPost]
+        [CaptchaValidation("CaptchaCode", "registerCaptcha", "Mã xác nhận không đúng")]
+        public async Task<ActionResult> ChangePasswordPost(ChangePasswordViewModel changePasswordVm)
+        {
+            if (ModelState.IsValid)
+            {
+                if (Request.IsAuthenticated)
+                {
+                    var userId = User.Identity.GetUserId();
+                    var user = await _userManager.FindByIdAsync(userId);
+                    var newPassword = changePasswordVm.NewPassword;
+                    user.PasswordHash = _userManager.PasswordHasher.HashPassword(newPassword);
+                    await _userManager.UpdateAsync(user);
+
+                    ViewData["SuccessMsg"] = "Đổi mật khẩu thành công!";
+                }
+            }
+            return View("ChangePassword", changePasswordVm);
         }
 
         [HttpPost]
