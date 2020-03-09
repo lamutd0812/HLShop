@@ -39,6 +39,14 @@ namespace HLShop.Web
                 namespaces: new string[] { "HLShop.Web.Controllers" }
             );
 
+            //recover
+            routes.MapRoute(
+                name: "Recover",
+                url: "quen-mat-khau.html",
+                defaults: new { controller = "Account", action = "RecoverPassword", id = UrlParameter.Optional },
+                namespaces: new string[] { "HLShop.Web.Controllers" }
+            );
+
             // cart
             routes.MapRoute(
                 name: "Cart",

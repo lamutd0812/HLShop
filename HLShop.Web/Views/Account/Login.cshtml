@@ -6,11 +6,13 @@
     Layout = "~/Views/Shared/Layouts.cshtml";
 }
 
-<h2>Login</h2><div class="account_grid">
+<div class="account_grid">
     <div class="login-right">
         <h3>ĐĂNG NHẬP</h3>
         @using (Html.BeginForm("LoginPost", "Account", new { returnUrl = ViewBag.ReturnUrl }, FormMethod.Post))
         {
+            @Html.AntiForgeryToken(); //ngan ko cho submit lien tuc
+            @Html.ValidationSummary(false, "", new { @class = "error" });
             <div>
                 <span>Tài khoản<label>*</label></span>
                 @Html.TextBoxFor(model => model.Username, new { @class = "error" })
@@ -23,10 +25,10 @@
                 @Html.CheckBoxFor(model => model.RememberMe)
                 Nhớ mật khẩu
             </div>
-            <a class="forgot" href="#">Quên mật khẩu?</a>
             <input type="submit" value="Đăng nhập">
+            <a href="/quen-mat-khau.html">Quên mật khẩu?</a>
         }
-        @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginsListViewModel {ReturnUrl = ViewBag.ReturnUrl})
+        @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginsListViewModel { ReturnUrl = ViewBag.ReturnUrl })
     </div>
     <div class="login-left">
         <h3>BẠN CHƯA CÓ TÀI KHOẢN?</h3>

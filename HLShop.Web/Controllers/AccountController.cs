@@ -226,6 +226,43 @@ namespace HLShop.Web.Controllers
             return View("Index", registerVm);
         }
 
+        public ActionResult RecoverPassword(RecoverViewModel recoverVm)
+        {
+            return View(recoverVm);
+        }
+
+        [HttpPost]
+        [CaptchaValidation("CaptchaCode", "registerCaptcha", "Mã xác nhận không đúng")]
+        public async Task<ActionResult> RecoverPasswordPost(RecoverViewModel recoverVm)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(recoverVm.Email);
+                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id))) 
+                {
+                    ModelState.AddModelError("email", "Email này chưa được đăng ký!");
+                    return View("RecoverPassword", recoverVm);
+                }
+
+                var newPassword = "$123456$";
+                user.PasswordHash = _userManager.PasswordHasher.HashPassword(newPassword);
+                await _userManager.UpdateAsync(user);
+
+                ViewData["SuccessMsg"] = "Lấy lại mật khẩu thành công!";
+
+                // send response mail
+                string mailContent = System.IO.File.ReadAllText(Server.MapPath("/Assets/client/template/recoverPassword.html"));
+                mailContent = mailContent.Replace("{{Link}}", ConfigHelper.GetByKey("CurrentLink") + "dang-nhap.html");
+                mailContent = mailContent.Replace("{{Username}}", user.UserName);
+                mailContent = mailContent.Replace("{{Password}}", newPassword);
+
+                var toEmail = user.Email;
+                string mailSubject = "Lấy lại mật khẩu tại hulasports.com";
+                MailHelper.SendMail(toEmail, mailSubject, mailContent);
+            }
+            return View("RecoverPassword", recoverVm);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult LogOut()
