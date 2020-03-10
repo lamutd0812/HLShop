@@ -52,7 +52,7 @@
                 @Html.PasswordFor(model => model.Password, new { @class = "error" })
                 <span>Xác nhận mật khẩu<label>*</label></span>
                 @Html.PasswordFor(model => model.Password, new { @class = "error" })
-
+                <span>Mã xác nhận<label>*</label></span>
                 @*//captcha*@
                 @{ MvcCaptcha registerCaptcha = new MvcCaptcha("registerCaptcha");}
                 @Html.Captcha(registerCaptcha)

@@ -70,6 +70,11 @@
             }
         });
 
+        $('#btnUpdateAccountInfor').off('click').on('click', function(e) {
+            e.preventDefault();
+            window.location.href = '/cap-nhat-thong-tin.html';
+        });
+
         $('#btnLogout').off('click').on('click', function(e) {
                 e.preventDefault(); // xoa su kien cua the hien tai (<a>)
                 $('#frmLogout').submit(); 

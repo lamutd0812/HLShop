@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -9,8 +10,11 @@ namespace HLShop.Web.Models
     {
         public string Id { set; get; }
         public string FullName { set; get; }
+
         public DateTime BirthDay { set; get; }
+
         public string Bio { set; get; }
+        public string Address { get; set; }
         public string Email { set; get; }
         public string Password { set; get; }
         public string UserName { set; get; }

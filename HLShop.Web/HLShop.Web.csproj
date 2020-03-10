@@ -5494,6 +5494,8 @@
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\RecoverPassword.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\Account\AccountInfor.cshtml" />
+    <Content Include="Views\Account\UpdateAccountInfor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HLShop.Common\HLShop.Common.csproj">

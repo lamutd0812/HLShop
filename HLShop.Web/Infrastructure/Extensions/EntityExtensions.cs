@@ -151,10 +151,11 @@ namespace HLShop.Web.Infrastructure.Extensions
 
             appUser.Id = appUserViewModel.Id;
             appUser.Fullname = appUserViewModel.FullName;
+            appUser.Address = appUserViewModel.Address;
             appUser.BirthDay = appUserViewModel.BirthDay;
             appUser.Email = appUserViewModel.Email;
-            appUser.UserName = appUserViewModel.UserName;
             appUser.PhoneNumber = appUserViewModel.PhoneNumber;
+            appUser.UserName = appUserViewModel.UserName;
         }
     }
 }

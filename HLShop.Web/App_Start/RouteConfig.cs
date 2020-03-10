@@ -55,6 +55,22 @@ namespace HLShop.Web
                 namespaces: new string[] { "HLShop.Web.Controllers" }
             );
 
+            //Account Infor
+            routes.MapRoute(
+                name: "AccountInfor",
+                url: "tai-khoan.html",
+                defaults: new { controller = "Account", action = "AccountInfor", id = UrlParameter.Optional },
+                namespaces: new string[] { "HLShop.Web.Controllers" }
+            );
+
+            //Update Account Infor
+            routes.MapRoute(
+                name: "UpdateAccountInfor",
+                url: "cap-nhat-thong-tin.html",
+                defaults: new { controller = "Account", action = "UpdateAccountInfor", id = UrlParameter.Optional },
+                namespaces: new string[] { "HLShop.Web.Controllers" }
+            );
+
             // cart
             routes.MapRoute(
                 name: "Cart",

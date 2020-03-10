@@ -13,13 +13,13 @@
         {
             @Html.AntiForgeryToken(); //ngan ko cho submit lien tuc
             @Html.ValidationSummary(false, "", new { @class = "error" });
-            <div>
+            <div class="editor-field">
                 <span>Tài khoản<label>*</label></span>
-                @Html.TextBoxFor(model => model.Username, new { @class = "error" })
+                @Html.TextBoxFor(model => model.Username)
             </div>
-            <div>
+            <div class="editor-field">
                 <span>Mật khẩu<label>*</label></span>
-                @Html.PasswordFor(model => model.Password, new { @class = "error" })
+                @Html.PasswordFor(model => model.Password)
             </div>
             <div>
                 @Html.CheckBoxFor(model => model.RememberMe)
