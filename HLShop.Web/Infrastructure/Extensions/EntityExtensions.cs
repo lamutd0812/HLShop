@@ -109,6 +109,13 @@ namespace HLShop.Web.Infrastructure.Extensions
             feedback.Status = feedbackVm.Status;    
         }
 
+        public static void UpdateCart(this Cart cart, CartViewModel cartVm)
+        {
+            cart.ProductId = cartVm.ProductId;
+            cart.UserId = cartVm.UserId;
+            cart.Quantity = cartVm.Quantity;
+        }
+
         public static void UpdateOrder(this Order order, OrderViewModel orderVm)
         {
             order.CustomerId = orderVm.CustomerId;
@@ -144,10 +151,11 @@ namespace HLShop.Web.Infrastructure.Extensions
 
             appUser.Id = appUserViewModel.Id;
             appUser.Fullname = appUserViewModel.FullName;
+            appUser.Address = appUserViewModel.Address;
             appUser.BirthDay = appUserViewModel.BirthDay;
             appUser.Email = appUserViewModel.Email;
-            appUser.UserName = appUserViewModel.UserName;
             appUser.PhoneNumber = appUserViewModel.PhoneNumber;
+            appUser.UserName = appUserViewModel.UserName;
         }
     }
 }

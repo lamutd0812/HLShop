@@ -51,5 +51,7 @@ namespace HLShop.Model.Models
 
         public string Tags { get; set; }
         public int Quantity { get; set; }
+
+       public virtual IEnumerable<Cart> Carts { get; set; }
     }
 }

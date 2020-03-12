@@ -17,11 +17,12 @@ namespace HLShop.Web
                     "~/Assets/admin/libs/mustache/mustache.js",
                     "~/Assets/admin/libs/numeral/numeral.js",
                     "~/Assets/admin/libs/jquery-validation/dist/jquery.validate.js",
+                    "~/Assets/admin/libs/jquery-validation/dist/additional-methods.js",
                     "~/Assets/client/js/common.js"));
 
             bundles.Add(new StyleBundle("~/css/base")
                 .Include("~/Assets/client/css/bootstrap.css", new CssRewriteUrlTransform())
-                .Include("~/Assets/client/font-awesome-4.6.3/css/font-awesome.css", new CssRewriteUrlTransform())
+                //.Include("~/Assets/client/font-awesome-4.6.3/css/font-awesome.css", new CssRewriteUrlTransform())
                 .Include("~/Assets/admin/libs/jquery-ui/themes/smoothness/jquery-ui.min.css", new CssRewriteUrlTransform())
                 .Include("~/Assets/client/css/style.css", new CssRewriteUrlTransform())
                 .Include("~/Assets/client/css/custom.css", new CssRewriteUrlTransform())

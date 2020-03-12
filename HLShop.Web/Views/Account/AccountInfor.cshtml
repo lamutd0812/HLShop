@@ -1,0 +1,59 @@
+﻿@model HLShop.Web.Models.ApplicationUserViewModel
+
+@{
+    ViewBag.Title = "AccountInfor";
+    Layout = "~/Views/Shared/Layouts.cshtml";
+}
+
+    <div class="main">
+        <h3>Thông tin tài khoản</h3>
+        <div class="form-group">
+            <div class="input">
+                <i class="fa fa-universal-access" aria-hidden="true"></i>
+                <b>Mã khách hàng: </b>@Model.Id
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input">
+                <i class="fa fa-file-text" aria-hidden="true"></i>
+                <b>Họ tên: </b>@Model.FullName
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input">
+                <i class="fa fa-home" aria-hidden="true"></i>
+                <b>Địa chỉ: </b>@Model.Address
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input">
+                <i class="fa fa-birthday-cake" aria-hidden="true"></i>
+                <b>Ngày sinh: </b>@Model.BirthDay.Day/@Model.BirthDay.Month/@Model.BirthDay.Year
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input">
+                <i class="fa fa-envelope" aria-hidden="true"></i>
+                <b>Email: </b>@Model.Email
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input">
+                <i class="fa fa-phone-square" aria-hidden="true"></i>
+                <b>Số điện thoại: </b>@Model.PhoneNumber
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input">
+                <i class="fa fa-user" aria-hidden="true"></i>
+                <b>Tên tài khoản: </b>@Model.UserName
+            </div>
+        </div>
+        <div class="form-group agileits_w3layouts_form w3_agileits_margin">
+            <div class="input">
+                <i class="fa fa-key" aria-hidden="true"></i>
+                <b>Mật khẩu: </b>************* <a href="/doi-mat-khau.hmtl">Đổi mật khẩu</a>
+            </div>
+        </div>
+        <button class="btn btn-danger" id="btnUpdateAccountInfor">Cập nhật thông tin cá nhân</button>
+    </div>

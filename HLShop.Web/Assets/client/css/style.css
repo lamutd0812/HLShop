@@ -63,7 +63,7 @@ ul.support li a {
 }
 .header-bottom-left{
 	float: left;
-	width: 65%;
+	width: 55%;
 }
 .logo{
 	float:left;
@@ -72,7 +72,7 @@ ul.support li a {
 }
 .header-bottom-right{
 	float: right;
-	width: 35%;
+	width: 45%;
 	text-align: center;
 	padding-top:1.7em;
 }
@@ -81,7 +81,7 @@ ul.support li a {
 	width:40%;
 }
 .cart{
-	width:30%;
+    width:20%;
 }
 .account a span{
 	background: url(../images/img-sprite.png)-117px -30px;
@@ -104,7 +104,7 @@ ul.support li a {
 }
 ul.login{
 	float:left;
-	width:70%;
+	width:80%;
 	margin:0;
 }
 ul.login li{
@@ -304,16 +304,17 @@ ul.cute li{
  span.on-get:hover{
 	background: #0D3F84;
 }
-a.now-get{
+a.now-get, input.now-get{
 	font-size: 1.1em;
 	color:#fff;
 	padding:0.6em 0.8em;
 	background:#323A45;
 	text-decoration: none;
 }
-a.now-get:hover{
+a.now-get:hover, input.now-get:hover{
 	background: #0D3F84;
 }
+
 .wmuSlider {
 	position: relative;
 	overflow: hidden;
@@ -1180,7 +1181,7 @@ ul.face-in-to li a span.facebook-in{
 	line-height: 1.5em;
 }
 .left-n{
-	font-size:1.8em;
+	font-size:1.5em;
 	float:left;
 	color:#F97E76;
 }

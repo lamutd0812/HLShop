@@ -31,22 +31,48 @@
               .appendTo(ul);
             };
 
-        $('.btnAddToCart').off('click').on('click', function (e) {
-            e.preventDefault(); // xóa điều hướng mặc định của thẻ (<a>)
-            var productId = parseInt($(this).data('id')); // lấy thuộc tính data-id của nút hiện tại (data-id="@Model.ID")
-            $.ajax({
-                url: '/Cart/Add',
-                data: {
-                    productId: productId
-                },
-                type: 'POST',
-                dataType: 'json',
-                success: function (response) {
-                    if (response.status) {
-                        alert('Thêm sản phẩm vào giỏ hàng thành công!');
-                    }
+        $('#frmAddToCart').validate({
+            rules: {
+                quantityToAdd: {
+                    required: true,
+                    min: 1,
+                    max: parseInt($('#maxQuantity').val())
                 }
-            });
+            },
+            messages: {
+                quantityToAdd: {
+                    required: "Phải nhập số lượng.",
+                    min: "Số lượng ít nhất là 1",
+                    max: "Số sản phẩm còn lại không đủ."
+                }
+            }
+        });
+
+        $('.btnAddToCart').off('click').on('click', function (e) {
+            var isValid = $('#frmAddToCart').valid();
+            if (isValid) {
+                var productId = parseInt($(this).data('id')); // lấy thuộc tính data-id của nút hiện tại (data-id="@Model.ID")
+                var quantity = parseInt($('#txtQuantityToAdd').val());
+                $.ajax({
+                    url: '/Cart/Add',
+                    data: {
+                        productId: productId,
+                        quantity: quantity
+                    },
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.status) {
+                            alert('Thêm sản phẩm vào giỏ hàng thành công!');
+                        }
+                    }
+                });
+            }
+        });
+
+        $('#btnUpdateAccountInfor').off('click').on('click', function(e) {
+            e.preventDefault();
+            window.location.href = '/cap-nhat-thong-tin.html';
         });
 
         $('#btnLogout').off('click').on('click', function(e) {

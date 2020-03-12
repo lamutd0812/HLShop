@@ -6,8 +6,11 @@ using Microsoft.AspNet.Identity.Owin;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
 using BotDetect.Web.Mvc;
 using HLShop.Common;
+using HLShop.Web.Infrastructure.Extensions;
+using HLShop.Web.Mappings;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 
@@ -17,6 +20,7 @@ namespace HLShop.Web.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private IMapper _mapper;
 
         public AccountController()
         {
@@ -26,6 +30,7 @@ namespace HLShop.Web.Controllers
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            _mapper = AutoMapperConfiguration.Configure();
         }
 
         public ApplicationSignInManager SignInManager
@@ -68,28 +73,31 @@ namespace HLShop.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> LoginPost(LoginViewModel loginVm, string returnUrl)
         {
-            ApplicationUser user = await _userManager.FindAsync(loginVm.Username, loginVm.Password);
-            if (user != null)
+            if (ModelState.IsValid)
             {
-                IAuthenticationManager authenticationManager = HttpContext.GetOwinContext().Authentication;
-                authenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
-                // ClaimsIdentity: chua thong tin dang nhap, quyen`, ... (luu trong cookie)
-                ClaimsIdentity identity = _userManager.CreateIdentity(user, DefaultAuthenticationTypes.ApplicationCookie);
-                AuthenticationProperties props = new AuthenticationProperties();
-                props.IsPersistent = loginVm.RememberMe;
-                authenticationManager.SignIn(props, identity);
-                if (Url.IsLocalUrl(returnUrl))
+                ApplicationUser user = await _userManager.FindAsync(loginVm.Username, loginVm.Password);
+                if (user != null)
                 {
-                    return Redirect(returnUrl);
+                    IAuthenticationManager authenticationManager = HttpContext.GetOwinContext().Authentication;
+                    authenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+                    // ClaimsIdentity: chua thong tin dang nhap, quyen`, ... (luu trong cookie)
+                    ClaimsIdentity identity = _userManager.CreateIdentity(user, DefaultAuthenticationTypes.ApplicationCookie);
+                    AuthenticationProperties props = new AuthenticationProperties();
+                    props.IsPersistent = loginVm.RememberMe;
+                    authenticationManager.SignIn(props, identity);
+                    if (Url.IsLocalUrl(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
                 else
                 {
-                    return RedirectToAction("Index", "Home");
+                    ModelState.AddModelError("error", "Tên đăng nhập hoặc mật khẩu không đúng!");
                 }
-            }
-            else
-            {
-                ModelState.AddModelError("error","Tên đăng nhập hoặc mật khẩu không đúng!");
             }
 
             ViewBag.ReturnUrl = returnUrl;
@@ -226,6 +234,109 @@ namespace HLShop.Web.Controllers
             return View("Index", registerVm);
         }
 
+        //Recover Password
+        public ActionResult RecoverPassword(RecoverViewModel recoverVm)
+        {
+            return View(recoverVm);
+        }
+        //Recover Password Post
+        [HttpPost]
+        [CaptchaValidation("CaptchaCode", "registerCaptcha", "Mã xác nhận không đúng")]
+        public async Task<ActionResult> RecoverPasswordPost(RecoverViewModel recoverVm)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(recoverVm.Email);
+                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id))) 
+                {
+                    ModelState.AddModelError("email", "Email này chưa được đăng ký!");
+                    return View("RecoverPassword", recoverVm);
+                }
+
+                var newPassword = "$123456$";
+                user.PasswordHash = _userManager.PasswordHasher.HashPassword(newPassword);
+                await _userManager.UpdateAsync(user);
+
+                ViewData["SuccessMsg"] = "Lấy lại mật khẩu thành công!";
+
+                // send response mail
+                string mailContent = System.IO.File.ReadAllText(Server.MapPath("/Assets/client/template/recoverPassword.html"));
+                mailContent = mailContent.Replace("{{Link}}", ConfigHelper.GetByKey("CurrentLink") + "dang-nhap.html");
+                mailContent = mailContent.Replace("{{Username}}", user.UserName);
+                mailContent = mailContent.Replace("{{Password}}", newPassword);
+
+                var toEmail = user.Email;
+                string mailSubject = "Lấy lại mật khẩu tại hulasports.com";
+                MailHelper.SendMail(toEmail, mailSubject, mailContent);
+            }
+            return View("RecoverPassword", recoverVm);
+        }
+
+        //Change Password
+        public ActionResult ChangePassword(ChangePasswordViewModel changePasswordVm)
+        {
+            return View(changePasswordVm);
+        }
+        //Change Password Post
+        [HttpPost]
+        [CaptchaValidation("CaptchaCode", "registerCaptcha", "Mã xác nhận không đúng")]
+        public async Task<ActionResult> ChangePasswordPost(ChangePasswordViewModel changePasswordVm)
+        {
+            if (ModelState.IsValid)
+            {
+                if (Request.IsAuthenticated)
+                {
+                    var userId = User.Identity.GetUserId();
+                    var user = await _userManager.FindByIdAsync(userId);
+                    var newPassword = changePasswordVm.NewPassword;
+                    user.PasswordHash = _userManager.PasswordHasher.HashPassword(newPassword);
+                    await _userManager.UpdateAsync(user);
+
+                    ViewData["SuccessMsg"] = "Đổi mật khẩu thành công!";
+                }
+            }
+            return View("ChangePassword", changePasswordVm);
+        }
+
+        // Account Infor
+        public ActionResult AccountInfor()
+        {
+            var userVm = GetUserViewModel();
+            return View(userVm);
+        }
+        
+        // Update Account Infor
+        public ActionResult UpdateAccountInfor(ApplicationUserViewModel userVm)
+        {
+            userVm = GetUserViewModel();
+            return View(userVm);
+        }
+        //Update Account Infor Post
+        [HttpPost]
+        [CaptchaValidation("CaptchaCode", "registerCaptcha", "Mã xác nhận không đúng")]
+        public async Task<ActionResult> UpdateAccountInforPost(ApplicationUserViewModel userVm)
+        {
+            if (ModelState.IsValid)
+            {
+                if (Request.IsAuthenticated)
+                {
+                    var userId = User.Identity.GetUserId();
+                    var user = await _userManager.FindByIdAsync(userId);
+                    //update infor
+                    user.Fullname = userVm.FullName;
+                    user.Address = userVm.Address;
+                    user.BirthDay = userVm.BirthDay;
+                    user.Email = userVm.Email;
+                    user.PhoneNumber = userVm.PhoneNumber;
+
+                    await _userManager.UpdateAsync(user);
+
+                    ViewData["SuccessMsg"] = "Cập nhật thông tin thành công!";
+                }
+            }
+            return View("UpdateAccountInfor", userVm);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult LogOut()
@@ -233,6 +344,19 @@ namespace HLShop.Web.Controllers
             IAuthenticationManager authenticationManager = HttpContext.GetOwinContext().Authentication;
             authenticationManager.SignOut();
             return RedirectToAction("Index", "Home");
+        }
+
+        public ApplicationUserViewModel GetUserViewModel()
+        {
+            var userVm = new ApplicationUserViewModel();
+            if (Request.IsAuthenticated)
+            {
+                var userId = User.Identity.GetUserId();
+                var user = _userManager.FindById(userId);
+                userVm = _mapper.Map<ApplicationUserViewModel>(user);
+            }
+
+            return userVm;
         }
 
         // Helper for External Login

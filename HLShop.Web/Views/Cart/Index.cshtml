@@ -68,7 +68,7 @@
         <td>{{ProductName}}</td>
         <td><img src="{{Image}}" class="img-cart" /></td>
         <td>{{PriceF}}$</td>
-        <td><input type="number" min="1" data-id="{{ProductId}}" data-price="{{Price}} " value="{{Quantity}}" class="input txtQuantity" /></td>
+        <td><input type="number" min="1" max="{{quantityRemaining}}" data-id="{{ProductId}}" data-price="{{Price}} " value="{{Quantity}}" class="input txtQuantity" /></td>
         <td id="amount_{{ProductId}}">{{Amount}}</td>$
         <td><button class="btn btn-danger btnDeleteItem" data-id="{{ProductId}}"><i class="fa fa-close"></i></button></td>
     </tr>

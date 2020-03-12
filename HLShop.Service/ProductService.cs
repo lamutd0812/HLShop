@@ -44,6 +44,8 @@ namespace HLShop.Service
         IEnumerable<Product> GetListProductByTag(string tagId, int page, int pageSize, out int totalRow);
 
         Tag GetTag(string tagId);
+
+        void UpdateQuantity(Product product, int quantity);
     }
 
     public class ProductService : IProductService
@@ -295,6 +297,16 @@ namespace HLShop.Service
         public Tag GetTag(string tagId)
         {
             return _tagRepository.GetSingleByCondition(x => x.ID == tagId);
+        }
+
+        public void UpdateQuantity(Product product, int quantity)
+        {
+            if (product.Quantity > quantity)
+            {
+                product.Quantity = product.Quantity - quantity;
+            }
+            _productRepository.Update(product);
+            _unitOfWork.Commit();
         }
     }
 }

@@ -27,6 +27,7 @@ namespace HLShop.Model.Models
             return userIdentity;
         }
 
-        public virtual IEnumerable<Order> Oders { get; set; }
+        public virtual IEnumerable<Order> Orders { get; set; }
+        public virtual IEnumerable<Cart> Carts { get; set; }
     }
 }
