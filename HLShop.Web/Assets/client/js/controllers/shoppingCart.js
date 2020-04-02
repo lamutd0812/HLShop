@@ -231,6 +231,7 @@
                                     STT: i + 1,
                                     ProductId: item.ProductId,
                                     ProductName: item.Product.Name,
+                                    ProductAlias: item.Product.Alias,
                                     Image: item.Product.Image,
                                     Price: item.Product.Price,
                                     PriceF: numeral(item.Product.Price).format('0,0'),

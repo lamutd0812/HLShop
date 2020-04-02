@@ -298,6 +298,10 @@ namespace HLShop.Web.Controllers
                         _cartService.Delete(item);
                     }
                 }
+                return Json(new
+                {
+                    status = true
+                });
             }
             else
             {

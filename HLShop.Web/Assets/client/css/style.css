@@ -692,13 +692,13 @@ p.m_text {
 	margin-top: 1em;
 }
 .product-grid{
-	float: left;
+    float: left;
 	width: 25%;
 }
 .left-grid-view {
-   overflow: hidden;
-   position: relative;
-   margin-bottom: 1em;
+	overflow: hidden;
+	position: relative;
+    margin-bottom: 1em;
 }
 .left-grid-view .mask,.left-grid-view .content {
    position: absolute;
